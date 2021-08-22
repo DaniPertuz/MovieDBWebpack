@@ -1,16 +1,12 @@
 import './App.scss';
-import { store } from './redux/store/store';
-import { Provider } from 'react-redux';
-import AppRouter from './router/AppRouter';
+import Main from './components/Main';
 
 function App() {
-    localStorage.setItem('favorites', JSON.stringify([]));
+    window.$favorites = [];
     return (
-        <Provider store={store}>
-            <div className="app">
-                <AppRouter />
-            </div>
-        </Provider>
+        <div className="app">
+            <Main />
+        </div>
     );
 }
 

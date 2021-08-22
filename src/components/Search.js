@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { searchItems } from '../helpers/search';
-import { Labels } from './Labels';
 import { SearchList } from './SearchList';
 
 export const Search = () => {
@@ -18,13 +17,9 @@ export const Search = () => {
                     setTotalResults(data.total_results);
                     setResults(data.results);
                 });
-            console.log(results);
-            console.log(totalResults);
         } else {
             setTotalResults('');
             setResults([]);
-            console.log(results);
-            console.log(totalResults);
         }
     }
 
@@ -45,7 +40,6 @@ export const Search = () => {
             {((results !== '') && (totalResults))
                 ?
                 <>
-                    <Labels />
                     <SearchList searchedItems={results} />
                 </>
                 :
