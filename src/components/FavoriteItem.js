@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getGenres } from '../helpers/genres';
 import Swal from 'sweetalert2';
 
-const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, genre_ids, first_air_date, release_date }) => {
+const FavoriteItem = ({ poster_path, title, name, overview, vote_average, genre_ids, first_air_date, release_date }) => {
 
     const [genres, setGenres] = useState([]);
 
@@ -15,12 +15,6 @@ const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, ge
         if (!video) {
             Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
         }
-    }
-
-    const removeFavorite = () => {
-        window.$favorites = window.$favorites.filter(favorite => favorite.id !== id);
-
-        Swal.fire('Atención', 'Item eliminado', 'success');
     }
 
     return (
@@ -48,12 +42,6 @@ const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, ge
                         onClick={isVideo}
                     >
                         Ver trailer
-                    </button>
-                    <button
-                        className="button-favorite"
-                        onClick={removeFavorite}
-                    >
-                        Eliminar de favoritos
                     </button>
                 </div>
             </div>
