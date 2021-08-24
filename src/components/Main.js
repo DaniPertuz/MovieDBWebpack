@@ -58,9 +58,8 @@ const Main = () => {
     }
 
     const goToFavorites = () => {
-        const favorites = window.$favorites;
         setItems({
-            shows: favorites,
+            shows: window.$favorites,
             favorites: true
         });
     }

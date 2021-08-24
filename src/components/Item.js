@@ -18,19 +18,19 @@ const Item = ({ id, poster_path, name, title, overview, vote_average, genre_ids,
     }
 
     const addFavorite = () => {
-        const favorites = window.$favorites;
 
         const itemSerie = { id, poster_path, name, overview, vote_average, genre_ids, first_air_date };
 
         const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
 
         if (name && first_air_date) {
-            window.$favorites = [...favorites, itemSerie];
+            window.$favorites = [...window.$favorites, itemSerie];
             Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
         } else {
-            window.$favorites = [...favorites, itemMovie];
+            window.$favorites = [...window.$favorites, itemMovie];
             Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
         }
+
     }
 
     return (

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getGenres } from '../helpers/genres';
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router-dom';
 
 const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, genre_ids, first_air_date, release_date }) => {
 
@@ -19,11 +18,7 @@ const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, ge
     }
 
     const removeFavorite = () => {
-        const favorites = window.$favorites;
-
-        const favoritesUpdated = favorites.filter(favorite => favorite.id !== id);
-
-        window.$favorites = favoritesUpdated;
+        window.$favorites = window.$favorites.filter(favorite => favorite.id !== id);
 
         Swal.fire('Atención', 'Item eliminado', 'success');
     }
