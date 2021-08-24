@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 import noPoster from '../assets/no-poster.jpeg';
 
-const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genre_ids, first_air_date, release_date, media_type, known_for }) => {
+const SearchItem = ({ poster_path, name, title, overview, vote_average, genre_ids, first_air_date, release_date, media_type, known_for }) => {
 
     const [genres, setGenres] = useState([]);
 
@@ -21,12 +21,25 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
         localStorage.setItem('favorites', JSON.stringify([...favorites, item]));
     }
 
+    const setVoteAverage = () => {
+        if (!vote_average) {
+            if (known_for) {
+                if (known_for[0]) {
+                    return known_for[0].vote_average;
+                }
+            }
+        }
+    }
+
     const setImage = () => {
         if ((poster_path === null) || (poster_path === undefined)) {
-            console.log(poster_path);
             if (known_for) {
-                if (known_for[0].poster_path !== undefined) {
-                    return `https://image.tmdb.org/t/p/w500${known_for[0].poster_path}`;
+                if (known_for[0]) {
+                    if (known_for[0].poster_path !== undefined) {
+                        return `https://image.tmdb.org/t/p/w500${known_for[0].poster_path}`;
+                    } else {
+                        return noPoster;
+                    }
                 } else {
                     return noPoster;
                 }
@@ -41,17 +54,23 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
     const setDescription = () => {
         if ((overview === null) || (overview === undefined)) {
             if (known_for) {
-                const description = known_for[0].overview;
-                if (description === "") {
-                    return 'Sin descripción';
+                if (known_for[0]) {
+                    const description = known_for[0].overview;
+                    if (description === "") {
+                        return 'Sin descripción';
+                    } else {
+                        return description.substr(0, 199);
+                    }
                 } else {
-                    return description;
+                    return 'Sin descripción';
                 }
             } else {
                 return 'Sin descripción';
             }
+        } else if (overview === "") {
+            return 'Sin descripción'
         } else {
-            return overview;
+            return overview.substr(0, 199);
         }
     }
 
@@ -83,7 +102,7 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
                     <h5 className="card-title">{title}</h5>
                 }
 
-                <h5 className="card-subtitle">{vote_average}</h5>
+                <h5 className="card-subtitle">{setVoteAverage()}</h5>
 
                 <p className="card-text">{setDate()}</p>
 

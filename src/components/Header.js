@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 
-const Header = ({ goToMovies, goToSeries, goToFavorites }) => {
+const Header = () => {
     return (
         <header>
             <div id="headerTop" className="container-fluid bg-white">
@@ -12,25 +13,25 @@ const Header = ({ goToMovies, goToSeries, goToFavorites }) => {
                 <nav>
                     <ul>
                         <li>
-                            <button
-                                onClick={goToMovies}
-                            >
-                                Películas
-                            </button>
+                            <Link to="/">
+                                <button>
+                                    Películas
+                                </button>
+                            </Link>
                         </li>
                         <li>
-                            <button
-                                onClick={goToSeries}
-                            >
-                                Series
-                            </button>
+                            <Link to="/series">
+                                <button>
+                                    Series
+                                </button>
+                            </Link>
                         </li>
                         <li>
-                            <button
-                                onClick={goToFavorites}
-                            >
-                                Favoritos
-                            </button>
+                            <Link to="/favorites">
+                                <button>
+                                    Favoritos
+                                </button>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
