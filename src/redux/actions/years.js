@@ -21,7 +21,6 @@ export const getSeriesYears = () => {
     return async (dispatch) => {
         try {
             const years = await getYearsSeries();
-            console.log(years);
             dispatch(loadingYearsSeries(years));
         } catch (error) {
             console.log(error);

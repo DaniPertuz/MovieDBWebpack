@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { genresList } from '../helpers/genres';
-import { getYearsAll } from '../helpers/years';
 import { getFavorites } from '../redux/actions/favorites';
 import { getSeriesYears } from '../redux/actions/years';
 import FavoriteItem from './FavoriteItem';

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+
 import { getGenres } from '../helpers/genres';
 
 const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, first_air_date, video }) => {
