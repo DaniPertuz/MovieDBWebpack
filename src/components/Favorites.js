@@ -44,7 +44,7 @@ const Favorites = () => {
         }
 
         if (selectedGender === 'Seleccione...') {
-            filtered = moviesList;
+            filtered = window.$favorites;
         }
 
         setFavorites(filtered);
@@ -64,7 +64,7 @@ const Favorites = () => {
         }
 
         if (selectedYear === 'Seleccione...') {
-            filtered = moviesList;
+            filtered = window.$favorites;
         }
 
         setFavorites(filtered);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchItems } from '../helpers/search';
+import { getSeries } from '../redux/actions/series';
 import { getSeriesYears } from '../redux/actions/years';
 import { Labels } from './Labels';
 import { SearchList } from './SearchList';
@@ -31,7 +32,7 @@ const Series = () => {
         setSeries(seriesList);
         setGenders(gendersList);
         setYears(seriesYears);
-    }, [seriesList, gendersList, seriesYears]);
+    }, [dispatch, seriesList, gendersList]);
 
     const filterByGender = (e) => {
         const selectedGender = e.target.value;

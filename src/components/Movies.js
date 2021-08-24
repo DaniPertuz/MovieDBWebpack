@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchItems } from '../helpers/search';
+import { getMovies } from '../redux/actions/movies';
 import { getMoviesYears } from '../redux/actions/years';
 import { Labels } from './Labels';
 import MovieItem from './MovieItem';
@@ -31,13 +32,13 @@ const Movies = () => {
         setMovies(moviesList);
         setGenders(gendersList);
         setYears(moviesYears);
-    }, [moviesList, gendersList, moviesYears]);
+    }, [dispatch, moviesList, gendersList]);
 
     const filterByGender = (e) => {
         const selectedGender = e.target.value;
         let filtered = [];
 
-        for (const movie of moviesList) {
+        for (const movie of movies) {
             const genders = movie.genre_ids;
             for (const gender of genders) {
                 if (Number(selectedGender) === gender) {
@@ -57,7 +58,7 @@ const Movies = () => {
         const selectedYear = e.target.value;
         let filtered = [];
 
-        for (const movie of moviesList) {
+        for (const movie of movies) {
             if (movie.release_date) {
                 const releaseYear = movie.release_date.substring(0, 4);
                 if (selectedYear === releaseYear) {
