@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
-    "build": "webpack --config config/webpack.prod.js",
-    "start": "webpack-dev-server --watch"
+    "build": "webpack --config config/webpack.prod.js"
   },
   "keywords": [],
   "author": "Daniel Pertuz",
