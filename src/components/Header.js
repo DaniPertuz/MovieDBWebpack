@@ -13,22 +13,22 @@ const Header = () => {
                 <nav>
                     <ul>
                         <li>
-                            <Link to="/">
-                                <button>
+                            <Link to="/" style={{ textDecoration: 'none' }}>
+                                <button className="links">
                                     Películas
                                 </button>
                             </Link>
                         </li>
                         <li>
-                            <Link to="/series">
-                                <button>
+                            <Link to="/series" style={{ textDecoration: 'none' }}>
+                                <button className="links">
                                     Series
                                 </button>
                             </Link>
                         </li>
                         <li>
-                            <Link to="/favorites">
-                                <button>
+                            <Link to="/favorites" style={{ textDecoration: 'none' }}>
+                                <button className="links">
                                     Favoritos
                                 </button>
                             </Link>
