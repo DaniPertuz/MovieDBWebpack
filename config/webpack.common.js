@@ -27,11 +27,6 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        historyApiFallback: {
-            index: '/'
-        },
-    },
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },

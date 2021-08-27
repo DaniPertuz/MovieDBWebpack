@@ -14,6 +14,9 @@ const prodConfig = {
             }
         ]
     },
+    devServer: {
+        historyApiFallback: true,
+    },
     optimization: {
         splitChunks: {
             chunks: "all",
