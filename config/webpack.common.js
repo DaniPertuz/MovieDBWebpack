@@ -10,6 +10,9 @@ module.exports = {
         filename: "bundle.[contenthash].js",
         publicPath: "/"
     },
+    devServer: {
+        historyApiFallback: true,
+    },
     module: {
         rules: [
             {
@@ -27,16 +30,13 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        historyApiFallback: true,
-    },
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: "./public/index.html"
+            template: "./dist/index.html"
         })
     ]
 }
