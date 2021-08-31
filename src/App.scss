@@ -291,269 +291,138 @@ nav ul li button:hover {
     margin: 0 auto;
 }
 
-@media screen and (max-width: 320px) {
-    .container-fluid > input[type="text"] {
-        height: 2vh;
-        min-width: 100%;
-        background-color: $gray;
-    }
+// @media screen and (max-width: 320px) {
+//     .container-fluid > input[type="text"] {
+//         height: 2vh;
+//         min-width: 100%;
+//         background-color: $gray;
+//     }
 
-    #headerTop {
-        padding: 0rem;
-        width: 100%;
-        display: block;
-    }
+//     #headerTop {
+//         padding: 0rem;
+//         width: 100%;
+//         display: block;
+//     }
 
-    #h4 {
-        font-size: 0.74rem;
-        margin: 1rem;
-    }
+//     #h4 {
+//         font-size: 0.74rem;
+//         margin: 1rem;
+//     }
 
-    .content {
-        padding: 1rem 0rem;
-        margin: 0 auto;
-        min-width: 100%;
-    }
+//     .content {
+//         padding: 1rem 0rem;
+//         margin: 0 auto;
+//         min-width: 100%;
+//     }
 
-    .content img {
-        float: left;
-        margin-left: 4rem;
-    }
+//     .content img {
+//         float: left;
+//         margin-left: 4rem;
+//     }
 
-    .content h1 {
-        margin-top: 0.3rem;
-    }
+//     .content h1 {
+//         margin-top: 0.3rem;
+//     }
 
-    .selects {
-        display: block;
-        float: left;
-        width: 100%;
-    }
+//     .selects {
+//         display: block;
+//         float: left;
+//         width: 100%;
+//     }
 
-    li {
-        margin-left: 2rem;
-    }
+//     li {
+//         margin-left: 2rem;
+//     }
 
-    .links {
-        display: block;
-        margin: 0.05rem 0.2rem;
-        font-size: 1rem;
-    }
+//     .links {
+//         display: block;
+//         margin: 0.05rem 0.2rem;
+//         font-size: 1rem;
+//     }
 
-    #labelYear {
-        font-size: 0.8rem;
-        margin-left: 2rem;
-    }
+//     #labelYear {
+//         font-size: 0.8rem;
+//         margin-left: 2rem;
+//     }
 
-    #comboYear {
-        margin-left: 1.5rem;
-        width: 77%;
-        font-size: 0.8rem;
-        height: 3.5vh;
-    }
+//     #comboYear {
+//         margin-left: 1.5rem;
+//         width: 77%;
+//         font-size: 0.8rem;
+//         height: 3.5vh;
+//     }
 
-    #labelGender {
-        font-size: 0.8rem;
-        margin-left: 8.6rem;
-    }
+//     #labelGender {
+//         font-size: 0.8rem;
+//         margin-left: 8.6rem;
+//     }
 
-    #comboGenre {
-        position: absolute;
-        margin-left: 20rem;
-        width: 37%;
-        font-size: 0.8rem;
-        height: 3.5vh;
-    }
+//     #comboGenre {
+//         position: absolute;
+//         margin-left: 20rem;
+//         width: 37%;
+//         font-size: 0.8rem;
+//         height: 3.5vh;
+//     }
 
-    .container-card {
-        width: 93.5%;
-        height: 25vh;
-    }
+//     .container-card {
+//         width: 93.5%;
+//         height: 25vh;
+//     }
 
-    .card {
-        height: 20vh;
-    }
+//     .card {
+//         height: 20vh;
+//     }
 
-    .card img {
-        width: 35%;
-        height: 100%;
-    }
+//     .card img {
+//         width: 35%;
+//         height: 100%;
+//     }
 
-    .card-title {
-        font-size: 0.7rem;
-        width: 49%;
-        height: 1vh;
-    }
+//     .card-title {
+//         font-size: 0.7rem;
+//         width: 49%;
+//         height: 1vh;
+//     }
 
-    .card-subtitle {
-        font-size: 0.7rem;
-        width: 10%;
-        height: 1vh;
-    }
+//     .card-subtitle {
+//         font-size: 0.7rem;
+//         width: 10%;
+//         height: 1vh;
+//     }
 
-    .card-text {
-        font-size: 0.5rem;
-        width: 26%;
-        height: 2vh;
-    }
+//     .card-text {
+//         font-size: 0.5rem;
+//         width: 26%;
+//         height: 2vh;
+//     }
 
-    .card-text-overview {
-        font-size: 0.5rem;
-        height: 1vh;
-    }
+//     .card-text-overview {
+//         font-size: 0.5rem;
+//         height: 1vh;
+//     }
 
-    .button-trailer {
-        position: absolute;
-        z-index: 1;
-        font-size: 0.58rem;
-        width: 20%;
-        margin-left: -10.2rem;
-        margin-top: 8rem;
-    }
+//     .button-trailer {
+//         position: absolute;
+//         z-index: 1;
+//         font-size: 0.58rem;
+//         width: 20%;
+//         margin-left: -10.2rem;
+//         margin-top: 8rem;
+//     }
 
-    .button-favorite {
-        position: absolute;
-        padding: 0.5rem 0rem;
-        z-index: 1;
-        font-size: 0.58rem;
-        width: 28%;
-        margin-left: -5.8rem;
-        margin-top: 8rem;
-    }
-}
+//     .button-favorite {
+//         position: absolute;
+//         padding: 0.5rem 0rem;
+//         z-index: 1;
+//         font-size: 0.58rem;
+//         width: 28%;
+//         margin-left: -5.8rem;
+//         margin-top: 8rem;
+//     }
+// }
 
-@media screen and (max-width: 375px) {
-    .container-fluid > input[type="text"] {
-        height: 2vh;
-        min-width: 100%;
-        background-color: $gray;
-    }
-
-    #headerTop {
-        padding: 0rem;
-        width: 100%;
-        display: block;
-    }
-
-    #h4 {
-        font-size: 0.88rem;
-        margin: 1rem;
-    }
-
-    .content {
-        padding: 1rem 0rem;
-        margin: 0 auto;
-        min-width: 100%;
-    }
-
-    .content img {
-        float: left;
-        margin-left: 4rem;
-    }
-
-    .content h1 {
-        margin-top: 0.3rem;
-    }
-
-    .selects {
-        display: block;
-        float: left;
-        width: 100%;
-    }
-
-    li {
-        margin-left: 2rem;
-    }
-
-    .links {
-        display: block;
-        margin: 0.05rem 0.2rem;
-        font-size: 1rem;
-    }
-
-    #labelYear {
-        font-size: 0.8rem;
-        margin-left: 2rem;
-    }
-
-    #comboYear {
-        margin-left: 1.5rem;
-        width: 77%;
-        font-size: 0.8rem;
-        height: 3.5vh;
-    }
-
-    #labelGender {
-        font-size: 0.8rem;
-        margin-left: 8.6rem;
-    }
-
-    #comboGenre {
-        position: absolute;
-        margin-left: 12rem;
-        width: 37%;
-        font-size: 0.8rem;
-        height: 3.5vh;
-    }
-
-    .container-card {
-        width: 93.5%;
-        height: 28vh;
-    }
-
-    .card {
-        height: 25vh;
-    }
-
-    .card img {
-        width: 35%;
-        height: 100%;
-    }
-
-    .card-title {
-        font-size: 0.8rem;
-        width: 49%;
-        height: 1vh;
-    }
-
-    .card-subtitle {
-        font-size: 0.8rem;
-        width: 10%;
-        height: 1vh;
-    }
-
-    .card-text {
-        font-size: 0.6rem;
-        width: 26%;
-        height: 2vh;
-    }
-
-    .card-text-overview {
-        font-size: 0.6rem;
-        height: 1vh;
-    }
-
-    .button-trailer {
-        position: absolute;
-        z-index: 1;
-        font-size: 0.6rem;
-        width: 20%;
-        margin-left: -12.3rem;
-        margin-top: 11rem;
-    }
-
-    .button-favorite {
-        position: absolute;
-        padding: 0.5rem 0rem;
-        z-index: 1;
-        font-size: 0.6rem;
-        width: 28%;
-        margin-left: -6.7rem;
-        margin-top: 11rem;
-    }
-}
-
-@media screen and (max-width: 425px) {
+@media screen and (min-width: 320px) and (max-width: 480px) {
     .container-fluid > input[type="text"] {
         height: 2vh;
         min-width: 100%;
@@ -579,7 +448,7 @@ nav ul li button:hover {
 
     .content img {
         float: left;
-        margin-left: 7rem;
+        margin-left: 6rem;
     }
 
     .content h1 {
@@ -593,13 +462,12 @@ nav ul li button:hover {
     }
 
     li {
-        margin-left: 3.5rem;
+        margin-left: 0.5rem;
     }
 
     .links {
         display: block;
-        margin: 0.05rem 0.2rem;
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 
     #labelYear {
@@ -684,7 +552,7 @@ nav ul li button:hover {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 481px) and (max-width: 768px) {
     .container-fluid > input[type="text"] {
         height: 2vh;
         min-width: 100%;
