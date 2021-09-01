@@ -29,21 +29,19 @@ const FavoriteItem = ({ poster_path, title, name, overview, vote_average, genre_
                 }
                 <h5 className="card-subtitle">{vote_average}</h5>
                 {first_air_date &&
-                    <p className="card-text">{first_air_date}</p>
+                    <p className="card-text-release">{first_air_date}</p>
                 }
                 {release_date &&
-                    <p className="card-text">{release_date}</p>
+                    <p className="card-text-release">{release_date}</p>
                 }
-                <p className="card-text">{genres}</p>
-                <p className="card-text-overview">{overview.length > 250 ? overview.substr(0, 249) + '...' : overview}</p>
-                <div className="container-buttons">
-                    <button
-                        className="button-trailer"
-                        onClick={isVideo}
-                    >
-                        Ver trailer
-                    </button>
-                </div>
+                <p className="card-text-genres">{genres}</p>
+                <p className="card-text-overview">{overview}</p>
+                <button
+                    className="button-trailer"
+                    onClick={isVideo}
+                >
+                    Ver trailer
+                </button>
             </div>
         </div>
     )

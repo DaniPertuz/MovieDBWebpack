@@ -107,7 +107,7 @@ const Movies = () => {
                     <>
                         <Labels />
                         <div className="rowManual">
-                            <div className="column-6">
+                            <div className="column-2">
                                 <select
                                     id="comboYear"
                                     name="year"
@@ -125,6 +125,8 @@ const Movies = () => {
                                     ))
                                     }
                                 </select>
+                            </div>
+                            <div className="column-2">
                                 <select
                                     id="comboGenre"
                                     name="gender"
