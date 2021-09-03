@@ -1,9 +1,10 @@
 import { types } from '../../types/types';
 
-export const getFavorites = (favorites) => {
-    return async (dispatch) => {
+export const getFavorites = () => {
+    return async (dispatch, getState) => {
         try {
-            dispatch(loadingFavorites(favorites));
+            const { favorites } = getState();
+            dispatch(loadingFavorites(favorites.data));
         } catch (error) {
             console.log(error);
         }
@@ -28,4 +29,19 @@ export const addFavorite = (favorite) => {
 const favoriteAddNew = (favorite) => ({
     type: types.favoritesAdd,
     payload: favorite
+});
+
+export const deleteFavorite = (id) => {
+    return async (dispatch) => {
+        try {
+            dispatch(favoriteDeleting(id));
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+const favoriteDeleting = (id) => ({
+    type: types.favoritesDelete,
+    payload: id
 });
