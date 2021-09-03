@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFavorites } from '../redux/actions/favorites';
 import { getSeriesYears } from '../redux/actions/years';
 import FavoriteItem from './FavoriteItem';
+import FavoritesList from './FavoritesList';
 import { Labels } from './Labels';
 
 const Favorites = () => {
@@ -112,17 +113,7 @@ const Favorites = () => {
                     </select>
                 </div>
             </div>
-            {(favorites.length === 0)
-                ?
-                <h3 className="text-center">No hay items marcado como favoritos todavía</h3>
-                :
-                favorites.map((item, index) => (
-                    <FavoriteItem
-                        key={index}
-                        {...item}
-                    />
-                ))
-            }
+            <FavoritesList favorites={favorites} />
         </>
     )
 }
