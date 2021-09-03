@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { getGenres } from '../helpers/genres';
+import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
+import { getGenres } from '../helpers/genres';
+import { deleteFavorite } from '../redux/actions/favorites';
+import favorite from '../assets/favorite.png';
 
-const FavoriteItem = ({ poster_path, title, name, overview, vote_average, genre_ids, first_air_date, release_date }) => {
+const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, genre_ids, first_air_date, release_date, media_type }) => {
+
+    const dispatch = useDispatch();
 
     const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-        getGenres(genre_ids)
-            .then(data => setGenres(data));
-    }, []);
+        settingGenres();
+    }, [genre_ids]);
+
+    const settingGenres = async () => {
+        const resp = await getGenres(genre_ids);
+        setGenres(resp);
+    }
 
     const isVideo = () => {
-        if (!video) {
+        if ((media_type === 'tv')) {
+            Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
+        } else {
             Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
         }
+    }
+
+    const removeFavorite = () => {
+        dispatch(deleteFavorite(id));
+        Swal.fire('Borrado', 'Elemento eliminado de favoritos', 'success');
     }
 
     return (
@@ -35,12 +51,24 @@ const FavoriteItem = ({ poster_path, title, name, overview, vote_average, genre_
                     <p className="card-text-release">{release_date}</p>
                 }
                 <p className="card-text-genres">{genres}</p>
-                <p className="card-text-overview">{overview}</p>
+                {overview
+                ?
+                <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
+                :
+                <p className="card-text-overview">Sin descripción</p>
+                }
                 <button
                     className="button-trailer"
                     onClick={isVideo}
                 >
                     Ver trailer
+                </button>
+                <button
+                    className="button-favorite"
+                    onClick={removeFavorite}
+                >
+                    Eliminar favorito
+                    <img src={favorite} alt="favorite" className="favIcon" />
                 </button>
             </div>
         </div>
