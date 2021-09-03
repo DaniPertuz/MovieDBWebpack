@@ -1,10 +1,12 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { GET_MOVIES } from '../fetch/urls';
+import { getAllMovies } from '../helpers/fetchData';
 import { searchItems } from '../helpers/search';
-import { getMovies } from '../redux/actions/movies';
-import { getMoviesYears } from '../redux/actions/years';
 import { Labels } from './Labels';
-import MovieItem from './MovieItem';
+import MoviesList from './MoviesList';
+import Pagination from './Pagination';
 import { SearchList } from './SearchList';
 
 const Movies = () => {
@@ -13,11 +15,19 @@ const Movies = () => {
 
     const [movies, setMovies] = useState([]);
 
+    const [filtered] = useState([]);
+
     const [genders, setGenders] = useState([]);
 
     const [years, setYears] = useState([]);
 
     const [totalResults, setTotalResults] = useState('');
+
+    const [totalMovieResults, setTotalMovieResults] = useState(0);
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [moviesPerPage] = useState(20);
 
     const [results, setResults] = useState([]);
 
@@ -28,50 +38,54 @@ const Movies = () => {
     const { moviesYears } = useSelector(state => state.years);
 
     useEffect(() => {
-        dispatch(getMoviesYears());
         setMovies(moviesList);
         setGenders(gendersList);
         setYears(moviesYears);
-    }, [dispatch, moviesList, gendersList]);
+        settingTotalMovieResults();
+    }, [dispatch, moviesList, gendersList, moviesYears]);
 
-    const filterByGender = (e) => {
+    const filterByGender = async (e) => {
         const selectedGender = e.target.value;
-        let filtered = [];
-
-        for (const movie of movies) {
-            const genders = movie.genre_ids;
-            for (const gender of genders) {
-                if (Number(selectedGender) === gender) {
-                    filtered.push(movie);
-                }
-            }
-        }
+        const allMovies = await getAllMovies();
+        filtered.length = 0;
 
         if (selectedGender === 'Seleccione...') {
-            filtered = moviesList;
-        }
-
-        setMovies(filtered);
-    }
-
-    const filterByYear = (e) => {
-        const selectedYear = e.target.value;
-        let filtered = [];
-
-        for (const movie of movies) {
-            if (movie.release_date) {
-                const releaseYear = movie.release_date.substring(0, 4);
-                if (selectedYear === releaseYear) {
-                    filtered.push(movie);
+            setMovies(moviesList);
+            setTotalMovieResults(moviesList.length);
+        } else {
+            for (const movie of allMovies) {
+                const genders = movie.genre_ids;
+                for (const gender of genders) {
+                    if (Number(selectedGender) === gender) {
+                        filtered.push(movie);
+                    }
                 }
             }
+            setMovies(filtered);
+            setTotalMovieResults(filtered.length);
         }
+    }
+
+    const filterByYear = async (e) => {
+        const selectedYear = e.target.value;
+        const allMovies = await getAllMovies();
+        filtered.length = 0;
 
         if (selectedYear === 'Seleccione...') {
-            filtered = moviesList;
+            setMovies(moviesList);
+            setTotalMovieResults(moviesList.length);
+        } else {
+            for (const movie of allMovies) {
+                if (movie.release_date) {
+                    const releaseYear = movie.release_date.substring(0, 4);
+                    if (selectedYear === releaseYear) {
+                        filtered.push(movie);
+                    }
+                }
+            }
+            setMovies(filtered);
+            setTotalMovieResults(filtered.length);
         }
-
-        setMovies(filtered);
     }
 
     const getSearch = async (e) => {
@@ -86,6 +100,24 @@ const Movies = () => {
             setResults([]);
         }
     }
+
+    const settingTotalMovieResults = async () => {
+        const next = await axios.get(GET_MOVIES);
+        const data = await next.data.total_pages;
+        setTotalMovieResults(data);
+    }
+
+    const nextPage = async (pageNumber) => {
+        const next = await axios.get(GET_MOVIES + `&page=${pageNumber}`);
+        const data = await next.data.results;
+        setMovies(data);
+        setCurrentPage(pageNumber);
+    }
+
+    const numberPages = Math.floor(totalMovieResults / moviesPerPage);
+    const last = currentPage * moviesPerPage;
+    const first = last - moviesPerPage;
+    const currentMovies = (filtered.length !== 0) ? filtered.slice(first, last) : movies;
 
     return (
         <>
@@ -145,12 +177,20 @@ const Movies = () => {
                                 </select>
                             </div>
                         </div>
-                        {movies.map((item, index) => (
-                            <MovieItem
-                                key={index}
-                                {...item}
+                        {(filtered.length !== 0)
+                            ?
+                            <MoviesList movies={currentMovies} />
+                            :
+                            <MoviesList movies={movies} />
+                        }
+                        <div style={{ clear: 'both' }}></div>
+                        {(totalMovieResults >= moviesPerPage) &&
+                            <Pagination
+                                pages={numberPages}
+                                nextPage={nextPage}
+                                currentPage={currentPage}
                             />
-                        ))}
+                        }
                     </>
             }
 

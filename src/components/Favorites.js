@@ -20,13 +20,15 @@ const Favorites = () => {
 
     const { data: gendersList } = useSelector(state => state.genders);
 
+    const { data: favoritesList } = useSelector(state => state.favorites);
+
     useEffect(() => {
+        dispatch(getFavorites());
         dispatch(getSeriesYears());
         setYears(seriesYears);
         setGenders(gendersList);
-        dispatch(getFavorites(window.$favorites));
-        setFavorites(window.$favorites);
-    }, []);
+        setFavorites(favoritesList);
+    }, [favoritesList]);
 
     const filterByGender = (e) => {
         const selectedGender = e.target.value;
