@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { getGenres } from '../helpers/genres';
+import favorite from '../assets/favorite.png';
 import Swal from 'sweetalert2';
 
 import noPoster from '../assets/no-poster.jpeg';
+import { useDispatch } from 'react-redux';
+import { addFavorite } from '../redux/actions/favorites';
 
-const SearchItem = ({ poster_path, name, title, overview, vote_average, genre_ids, first_air_date, release_date, media_type, known_for }) => {
+const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genre_ids, first_air_date, release_date, media_type, known_for }) => {
+
+    const dispatch = useDispatch();
 
     const [genres, setGenres] = useState([]);
 
@@ -13,12 +18,18 @@ const SearchItem = ({ poster_path, name, title, overview, vote_average, genre_id
             .then(data => setGenres(data));
     }, []);
 
-    const addFavorite = () => {
-        const favorites = JSON.parse(localStorage.getItem('favorites'));
+    const addingFavorite = () => {
 
-        const item = { poster_path, name, overview, vote_average, genre_ids, first_air_date };
+        if (media_type === 'tv') {
+            const itemSeries = { id, poster_path, name, overview, vote_average, genre_ids, first_air_date };
+            dispatch(addFavorite(itemSeries));
+            Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
+        } else {
+            const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
+            dispatch(addFavorite(itemMovie));
+            Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
+        }
 
-        localStorage.setItem('favorites', JSON.stringify([...favorites, item]));
     }
 
     const setVoteAverage = () => {
@@ -86,7 +97,11 @@ const SearchItem = ({ poster_path, name, title, overview, vote_average, genre_id
     }
 
     const isVideo = () => {
-        Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
+        if ((media_type === 'tv')) {
+            Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
+        } else {
+            Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
+        }
     }
 
     return (
@@ -104,15 +119,15 @@ const SearchItem = ({ poster_path, name, title, overview, vote_average, genre_id
 
                 <h5 className="card-subtitle">{setVoteAverage()}</h5>
 
-                <p className="card-text">{setDate()}</p>
+                <p className="card-text-release">{setDate()}</p>
 
-                <p className="card-text">{genres}</p>
-                <p className="card-text">
+                <p className="card-text-genres">{genres}</p>
+                <p>
                     {(media_type === 'tv')
                         ?
-                        'Película'
-                        :
                         'Serie'
+                        :
+                        'Película'
                     }
                 </p>
                 <p className="card-text-overview">{setDescription()}</p>
@@ -124,9 +139,10 @@ const SearchItem = ({ poster_path, name, title, overview, vote_average, genre_id
                 </button>
                 <button
                     className="button-favorite"
-                    onClick={addFavorite}
+                    onClick={addingFavorite}
                 >
                     Agregar a favoritos
+                    <img src={favorite} alt="favorite" className="favIcon" />
                 </button>
             </div>
         </div>
