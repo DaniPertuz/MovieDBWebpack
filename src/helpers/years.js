@@ -5,14 +5,18 @@ let allYears = [];
 
 export const getYearsMovies = async () => {
     const resp = await axios.get(GET_MOVIES);
-    const movies = await resp.data.results;
+    const total_pages = await resp.data.total_pages;
 
     let years = [];
-
-    for (const movie of movies) {
-        const year = movie.release_date;
-        years.push(year.substring(0, 4));
-        allYears.push(year.substring(0, 4));
+    for (let i = 1; i <= total_pages; i++) {
+        const response = await axios.get(GET_MOVIES + `&page=${i}`);
+        const movies = await response.data.results;
+        for (const movie of movies) {
+            const year = movie.release_date;
+            if (year || year !== undefined) {
+                years.push(year.substring(0, 4));
+            }
+        }
     }
 
     years.sort();
@@ -25,24 +29,24 @@ export const getYearsMovies = async () => {
 
 export const getYearsSeries = async () => {
     const resp = await axios.get(GET_SERIES);
-    const series = await resp.data.results;
+    const total_pages = await resp.data.total_pages;
 
     let years = [];
-
-    for (const serie of series) {
-        const year = serie.first_air_date;
-        years.push(year.substring(0, 4));
-        allYears.push(year.substring(0, 4));
+    for (let i = 1; i <= total_pages; i++) {
+        const response = await axios.get(GET_SERIES + `&page=${i}`);
+        const series = await response.data.results;
+        for (const serie of series) {
+            const year = serie.first_air_date;
+            if (year || year !== undefined) {
+                years.push(year.substring(0, 4));
+            }
+        }
     }
-
+        
     years.sort();
     years.reverse();
 
     const uniques = years.filter((v, i, a) => a.indexOf(v) === i);
 
     return uniques;
-}
-
-export const getYearsAll = async () => {
-    return allYears.filter((v, i, a) => a.indexOf(v) === i);
 }
