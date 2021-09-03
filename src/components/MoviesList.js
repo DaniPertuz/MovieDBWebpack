@@ -4,12 +4,16 @@ import MovieItem from './MovieItem';
 const MoviesList = ({ movies = [] }) => {
     return (
         <>
-            {movies.map((item, index) => (
-                <MovieItem
-                    key={index}
-                    {...item}
-                />
-            ))}
+            {(movies.length === 0)
+                ?
+                <h3 className="text-center">No hay películas</h3>
+                :
+                movies.map((item, index) => (
+                    <MovieItem
+                        key={index}
+                        {...item}
+                    />
+                ))}
         </>
     )
 }
