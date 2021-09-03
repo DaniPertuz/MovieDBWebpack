@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { getGenres } from '../helpers/genres';
 import favorite from '../assets/favorite.png';
+import { addFavorite } from '../redux/actions/favorites';
 
 const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, release_date, video }) => {
 
+    const dispatch = useDispatch();
     const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-        getGenres(genre_ids)
-            .then(data => setGenres(data));
-    }, []);
+        settingGenres();
+    }, [genre_ids]);
+
+    const settingGenres = async () => {
+        const resp = await getGenres(genre_ids);
+        setGenres(resp);
+    }
 
     const isVideo = () => {
         if (!video) {
@@ -18,11 +25,9 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
         }
     }
 
-    const addFavorite = () => {
+    const addingFavorite = () => {
         const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
-
-        window.$favorites = [...window.$favorites, itemMovie];
-
+        dispatch(addFavorite(itemMovie));
         Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
     }
 
@@ -35,25 +40,19 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
                 <p className="card-text-release">{release_date}</p>
                 <p className="card-text-genres">{genres}</p>
                 <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
-                    <button
-                        className="button-trailer"
-                        onClick={isVideo}
-                    >
-                        Ver trailer
-                    </button>
-                    <button
-                        className="button-favorite"
-                        onClick={addFavorite}
-                    >
-                        Agregar a favoritos
-                        <img src={favorite} alt="favorite" className="favIcon" />
-                    </button>
-                <div className="container-buttons">
-                    <div className="column-6">
-                    </div>
-                    <div className="column-6">
-                    </div>
-                </div>
+                <button
+                    className="button-trailer"
+                    onClick={isVideo}
+                >
+                    Ver trailer
+                </button>
+                <button
+                    className="button-favorite"
+                    onClick={addingFavorite}
+                >
+                    Agregar a favoritos
+                    <img src={favorite} alt="favorite" className="favIcon" />
+                </button>
             </div>
         </div>
     )
