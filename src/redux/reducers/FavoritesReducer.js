@@ -17,6 +17,14 @@ export default (state = initialState, { type, payload }) => {
                 ...state,
                 data: [...state.data, payload]
             }
+        
+        case types.favoritesDelete:
+            return {
+                ...state,
+                data: state.data.filter(
+                    e => e.id !== payload
+                )
+            }
 
         default:
             return state;
