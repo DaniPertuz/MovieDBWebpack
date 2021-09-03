@@ -4,7 +4,6 @@ import Main from './components/Main';
 import { store } from './redux/store/store';
 
 function App() {
-    window.$favorites = [];
     return (
         <Provider store={store}>
             <div className="app">
