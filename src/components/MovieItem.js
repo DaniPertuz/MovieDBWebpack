@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import { getGenres } from '../helpers/genres';
+import axios from 'axios';
+
+import { getGenresMovies } from '../helpers/genres';
 import favorite from '../assets/favorite.png';
 import { addFavorite } from '../redux/actions/favorites';
+import { addGenres } from '../redux/actions/genders';
 
 const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, release_date, video }) => {
 
@@ -15,12 +18,24 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
     }, [genre_ids]);
 
     const settingGenres = async () => {
-        const resp = await getGenres(genre_ids);
+        const resp = await getGenresMovies(genre_ids);
         setGenres(resp);
     }
 
-    const isVideo = () => {
-        if (!video) {
+    const getVideo = async () => {
+        const url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
+        
+        const response = await axios.get(url);
+        const results = await response.data.results;
+        const result = results.find(result => result.type === "Trailer" && result.site === "YouTube");
+        
+        if (result) {
+            Swal.fire({
+                title: 'Trailer',
+                html:
+                    `<iframe width="470" height="315" src="https://www.youtube.com/embed/${result.key}" frameborder="0" allowfullscreen></iframe>`
+            });
+        } else {
             Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
         }
     }
@@ -28,6 +43,7 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
     const addingFavorite = () => {
         const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
         dispatch(addFavorite(itemMovie));
+        dispatch(addGenres(genre_ids));
         Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
     }
 
@@ -42,7 +58,7 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
                 <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
                 <button
                     className="button-trailer"
-                    onClick={isVideo}
+                    onClick={getVideo}
                 >
                     Ver trailer
                 </button>

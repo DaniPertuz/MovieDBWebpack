@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getGenres } from '../helpers/genres';
-import favorite from '../assets/favorite.png';
+import axios from 'axios';
 import Swal from 'sweetalert2';
+import favorite from '../assets/favorite.png';
 
 import noPoster from '../assets/no-poster.jpeg';
 import { useDispatch } from 'react-redux';
 import { addFavorite } from '../redux/actions/favorites';
+import { addGenres } from '../redux/actions/genders';
 
 const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genre_ids, first_air_date, release_date, media_type, known_for }) => {
 
@@ -14,22 +16,26 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
     const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-        getGenres(genre_ids)
-            .then(data => setGenres(data));
-    }, []);
+        settingGenres();
+    }, [genre_ids]);
+
+    const settingGenres = async () => {
+        const resp = await getGenresSeries(genre_ids);
+        setGenres(resp);
+    }
 
     const addingFavorite = () => {
-
         if (media_type === 'tv') {
             const itemSeries = { id, poster_path, name, overview, vote_average, genre_ids, first_air_date };
             dispatch(addFavorite(itemSeries));
+            dispatch(addGenres(genre_ids));
             Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
         } else {
             const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
             dispatch(addFavorite(itemMovie));
+            dispatch(addGenres(genre_ids));
             Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
         }
-
     }
 
     const setVoteAverage = () => {
@@ -96,11 +102,39 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
         }
     }
 
-    const isVideo = () => {
-        if ((media_type === 'tv')) {
-            Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
-        } else {
-            Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
+    const getVideo = async () => {
+        try {
+            let url = '';
+    
+            if (media_type === 'tv') {
+                url = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
+            } else {
+                url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
+            }
+    
+            const response = await axios.get(url);
+            const results = await response.data.results;
+            const result = results.find(result => result.type === "Trailer" && result.site === "YouTube");
+     
+            if (result) {
+                Swal.fire({
+                    title: 'Trailer',
+                    html:
+                        `<iframe width="470" height="315" src="https://www.youtube.com/embed/${result.key}" frameborder="0" allowfullscreen></iframe>`
+                });
+            } else {
+                if (media_type === 'tv') {
+                    Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
+                } else {
+                    Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
+                }
+            }
+        } catch (error) {
+            if (media_type === 'tv') {
+                Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
+            } else {
+                Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
+            }
         }
     }
 
@@ -133,7 +167,7 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
                 <p className="card-text-overview">{setDescription()}</p>
                 <button
                     className="button-trailer"
-                    onClick={isVideo}
+                    onClick={getVideo}
                 >
                     Ver trailer
                 </button>

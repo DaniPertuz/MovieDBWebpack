@@ -1,10 +1,12 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import favorite from '../assets/favorite.png';
 import noPoster from '../assets/no-poster.jpeg';
-import { getGenres } from '../helpers/genres';
+import { getGenresSeries } from '../helpers/genres';
 import { addFavorite } from '../redux/actions/favorites';
+import { addGenres } from '../redux/actions/genders';
 
 const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, first_air_date, video }) => {
 
@@ -17,12 +19,24 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
     }, [genre_ids]);
 
     const settingGenres = async () => {
-        const resp = await getGenres(genre_ids);
+        const resp = await getGenresSeries(genre_ids);
         setGenres(resp);
     }
 
-    const isVideo = () => {
-        if (!video) {
+    const getVideo = async () => {
+        const url = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
+ 
+        const response = await axios.get(url);
+        const results = await response.data.results;
+        const result = results.find(result => result.type === "Trailer" && result.site === "YouTube");
+ 
+        if (result) {
+            Swal.fire({
+                title: 'Trailer',
+                html:
+                    `<iframe width="470" height="315" src="https://www.youtube.com/embed/${result.key}" frameborder="0" allowfullscreen></iframe>`
+            });
+        } else {
             Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
         }
     }
@@ -30,6 +44,7 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
     const addingFavorite = () => {
         const itemSeries = { id, poster_path, name, overview, vote_average, genre_ids, first_air_date };
         dispatch(addFavorite(itemSeries));
+        dispatch(addGenres(genre_ids));
         Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
     }
 
@@ -59,7 +74,7 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
                 }
                 <button
                     className="button-trailer"
-                    onClick={isVideo}
+                    onClick={getVideo}
                 >
                     Ver trailer
                 </button>
