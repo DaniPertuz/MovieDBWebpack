@@ -1,7 +1,9 @@
 
 export const GET_MOVIES = 'https://api.themoviedb.org/3/movie/popular?api_key=cc0b90931467ae243564a690969b3b99&language=es';
 
-export const GET_GENRES = 'https://api.themoviedb.org/3/genre/movie/list?api_key=cc0b90931467ae243564a690969b3b99&language=es';
+export const GET_GENRES_MOVIES = 'https://api.themoviedb.org/3/genre/movie/list?api_key=cc0b90931467ae243564a690969b3b99&language=es';
+
+export const GET_GENRES_SERIES = 'https://api.themoviedb.org/3/genre/tv/list?api_key=cc0b90931467ae243564a690969b3b99&language=es';
 
 export const GET_SERIES = 'https://api.themoviedb.org/3/tv/popular?api_key=cc0b90931467ae243564a690969b3b99&language=es';
 
