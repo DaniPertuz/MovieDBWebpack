@@ -1,4 +1,5 @@
 import React from 'react';
+import FavoriteItem from './FavoriteItem';
 
 const FavoritesList = ({ favorites = [] }) => {
     return (
