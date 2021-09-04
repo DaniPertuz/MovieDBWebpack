@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { GET_MOVIES, GET_SERIES } from '../fetch/urls';
 
-let allYears = [];
-
 export const getYearsMovies = async () => {
     const resp = await axios.get(GET_MOVIES);
     const total_pages = await resp.data.total_pages;
@@ -14,7 +12,8 @@ export const getYearsMovies = async () => {
         for (const movie of movies) {
             const year = movie.release_date;
             if (year || year !== undefined) {
-                years.push(year.substring(0, 4));
+                const onlyYear = year.substring(0, 4);
+                years.push(onlyYear);
             }
         }
     }
@@ -38,11 +37,21 @@ export const getYearsSeries = async () => {
         for (const serie of series) {
             const year = serie.first_air_date;
             if (year || year !== undefined) {
-                years.push(year.substring(0, 4));
+                const onlyYear = year.substring(0, 4);
+                years.push(onlyYear);
             }
         }
     }
-        
+
+    years.sort();
+    years.reverse();
+
+    const uniques = years.filter((v, i, a) => a.indexOf(v) === i);
+
+    return uniques;
+}
+
+export const gettingAllYears = (years = []) => {
     years.sort();
     years.reverse();
 
