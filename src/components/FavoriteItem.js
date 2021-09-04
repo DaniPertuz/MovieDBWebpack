@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import { getGenres } from '../helpers/genres';
 import { deleteFavorite } from '../redux/actions/favorites';
 import favorite from '../assets/favorite.png';
+import { getGenresMovies, getGenresSeries } from '../helpers/genres';
+import axios from 'axios';
 
 const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, genre_ids, first_air_date, release_date, media_type }) => {
 
@@ -13,18 +14,53 @@ const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, ge
 
     useEffect(() => {
         settingGenres();
-    }, [genre_ids]);
+    }, [dispatch, genre_ids]);
 
     const settingGenres = async () => {
-        const resp = await getGenres(genre_ids);
-        setGenres(resp);
+        let genresMovie, genresSerie;
+        genresMovie = await getGenresMovies(genre_ids);
+        genresSerie = await getGenresSeries(genre_ids);
+
+        if (title) {
+            setGenres(genresMovie);
+        } else {
+            setGenres(genresSerie);
+        }
     }
 
-    const isVideo = () => {
-        if ((media_type === 'tv')) {
-            Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
-        } else {
-            Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
+    const getVideo = async () => {
+        try {
+            let url = '';
+
+            if (name) {
+                url = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
+            } else {
+                url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
+            }
+
+            const response = await axios.get(url);
+            const results = await response.data.results;
+            const result = results.find(result => result.type === "Trailer" && result.site === "YouTube");
+
+            if (result) {
+                Swal.fire({
+                    title: 'Trailer',
+                    html:
+                        `<iframe width="470" height="315" src="https://www.youtube.com/embed/${result.key}" frameborder="0" allowfullscreen></iframe>`
+                });
+            } else {
+                if (media_type === 'tv') {
+                    Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
+                } else {
+                    Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
+                }
+            }
+        } catch (error) {
+            if (media_type === 'tv') {
+                Swal.fire('Lo sentimos', 'No hay tráiler para esta serie', 'warning');
+            } else {
+                Swal.fire('Lo sentimos', 'No hay tráiler para esta película', 'warning');
+            }
         }
     }
 
@@ -52,14 +88,14 @@ const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, ge
                 }
                 <p className="card-text-genres">{genres}</p>
                 {overview
-                ?
-                <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
-                :
-                <p className="card-text-overview">Sin descripción</p>
+                    ?
+                    <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
+                    :
+                    <p className="card-text-overview">Sin descripción</p>
                 }
                 <button
                     className="button-trailer"
-                    onClick={isVideo}
+                    onClick={getVideo}
                 >
                     Ver trailer
                 </button>
