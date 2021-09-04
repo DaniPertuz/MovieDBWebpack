@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
 import { GET_MOVIES } from '../fetch/urls';
 import { getAllMovies } from '../helpers/fetchData';
 import { searchItems } from '../helpers/search';
@@ -10,8 +11,6 @@ import Pagination from './Pagination';
 import { SearchList } from './SearchList';
 
 const Movies = () => {
-
-    const dispatch = useDispatch();
 
     const [movies, setMovies] = useState([]);
 
@@ -33,7 +32,7 @@ const Movies = () => {
 
     const { data: moviesList } = useSelector(state => state.movies);
 
-    const { data: gendersList } = useSelector(state => state.genders);
+    const { moviesGenres: gendersList } = useSelector(state => state.genders);
 
     const { moviesYears } = useSelector(state => state.years);
 
@@ -42,7 +41,7 @@ const Movies = () => {
         setGenders(gendersList);
         setYears(moviesYears);
         settingTotalMovieResults();
-    }, [dispatch, moviesList, gendersList, moviesYears]);
+    }, [moviesList, gendersList, moviesYears]);
 
     const filterByGender = async (e) => {
         const selectedGender = e.target.value;

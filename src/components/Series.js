@@ -1,19 +1,16 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
 import { GET_SERIES } from '../fetch/urls';
 import { getAllSeries } from '../helpers/fetchData';
-
 import { searchItems } from '../helpers/search';
-import { getSeriesYears } from '../redux/actions/years';
 import { Labels } from './Labels';
 import Pagination from './Pagination';
 import { SearchList } from './SearchList';
 import SeriesList from './SeriesList';
 
 const Series = () => {
-
-    const dispatch = useDispatch();
 
     const [series, setSeries] = useState([]);
 
@@ -35,7 +32,7 @@ const Series = () => {
 
     const { data: seriesList } = useSelector(state => state.series);
 
-    const { data: gendersList } = useSelector(state => state.genders);
+    const { seriesGenres: gendersList } = useSelector(state => state.genders);
 
     const { seriesYears } = useSelector(state => state.years);
 
@@ -44,7 +41,7 @@ const Series = () => {
         setGenders(gendersList);
         setYears(seriesYears);
         settingTotalSeriesResults();
-    }, [dispatch, seriesList, gendersList, seriesYears]);
+    }, [seriesList, gendersList, seriesYears]);
 
     const filterByGender = async (e) => {
         const selectedGender = e.target.value;
