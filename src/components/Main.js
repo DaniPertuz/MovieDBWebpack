@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import MainRouter from '../routes/MainRouter';
 import { getMovies } from '../redux/actions/movies';
-import { getGenders } from '../redux/actions/genders';
+import { getAllGenres, getGendersMovies, getGendersSeries } from '../redux/actions/genders';
 import { getSeries } from '../redux/actions/series';
 import { getFavorites } from '../redux/actions/favorites';
 import { getMoviesYears, getSeriesYears } from '../redux/actions/years';
@@ -15,7 +15,9 @@ const Main = () => {
     useEffect(() => {
         dispatch(getMovies());
         dispatch(getSeries());
-        dispatch(getGenders());
+        dispatch(getGendersMovies());
+        dispatch(getGendersSeries());
+        dispatch(getAllGenres());
         dispatch(getFavorites());
         dispatch(getMoviesYears());
         dispatch(getSeriesYears());
