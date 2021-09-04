@@ -7,6 +7,7 @@ import noPoster from '../assets/no-poster.jpeg';
 import { getGenresSeries } from '../helpers/genres';
 import { addFavorite } from '../redux/actions/favorites';
 import { addGenres } from '../redux/actions/genders';
+import { addYears } from '../redux/actions/years';
 
 const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, first_air_date, video }) => {
 
@@ -45,6 +46,7 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
         const itemSeries = { id, poster_path, name, overview, vote_average, genre_ids, first_air_date };
         dispatch(addFavorite(itemSeries));
         dispatch(addGenres(genre_ids));
+        dispatch(addYears(first_air_date.substring(0, 4)));
         Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
     }
 

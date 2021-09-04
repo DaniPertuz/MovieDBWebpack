@@ -7,8 +7,9 @@ import { getGenresMovies } from '../helpers/genres';
 import favorite from '../assets/favorite.png';
 import { addFavorite } from '../redux/actions/favorites';
 import { addGenres } from '../redux/actions/genders';
+import { addYears } from '../redux/actions/years';
 
-const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, release_date, video }) => {
+const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, release_date }) => {
 
     const dispatch = useDispatch();
     const [genres, setGenres] = useState([]);
@@ -44,6 +45,7 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
         const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
         dispatch(addFavorite(itemMovie));
         dispatch(addGenres(genre_ids));
+        dispatch(addYears(release_date.substring(0, 4)));
         Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
     }
 

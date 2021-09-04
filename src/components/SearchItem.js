@@ -29,11 +29,13 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
             const itemSeries = { id, poster_path, name, overview, vote_average, genre_ids, first_air_date };
             dispatch(addFavorite(itemSeries));
             dispatch(addGenres(genre_ids));
+            dispatch(addYears(first_air_date.substring(0, 4)));
             Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
         } else {
             const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
             dispatch(addFavorite(itemMovie));
             dispatch(addGenres(genre_ids));
+            dispatch(addYears(release_date.substring(0, 4)));
             Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
         }
     }
