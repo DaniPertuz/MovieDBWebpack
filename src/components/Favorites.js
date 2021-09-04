@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { genresList, settingGenresList } from '../helpers/genres';
 
 import { getFavorites } from '../redux/actions/favorites';
 import { getSeriesYears } from '../redux/actions/years';
-import FavoriteItem from './FavoriteItem';
 import FavoritesList from './FavoritesList';
 import { Labels } from './Labels';
 
@@ -17,25 +17,28 @@ const Favorites = () => {
 
     const [genders, setGenders] = useState([]);
 
-    const { seriesYears } = useSelector(state => state.years);
+    const { allYears } = useSelector(state => state.years);
 
-    const { data: gendersList } = useSelector(state => state.genders);
+    const { allGenres: gendersList } = useSelector(state => state.genders);
 
     const { data: favoritesList } = useSelector(state => state.favorites);
 
     useEffect(() => {
-        dispatch(getFavorites());
-        dispatch(getSeriesYears());
-        setYears(seriesYears);
-        setGenders(gendersList);
+        setYears(allYears);
+        settingGenres();
         setFavorites(favoritesList);
-    }, [favoritesList]);
+    }, [dispatch, gendersList]);
+
+    const settingGenres = async () => {
+        const genres = await settingGenresList(gendersList);
+        setGenders(genres);
+    }
 
     const filterByGender = (e) => {
         const selectedGender = e.target.value;
         let filtered = [];
 
-        for (const item of window.$favorites) {
+        for (const item of favoritesList) {
             const genders = item.genre_ids;
             for (const gender of genders) {
                 if (Number(selectedGender) === gender) {
@@ -45,7 +48,7 @@ const Favorites = () => {
         }
 
         if (selectedGender === 'Seleccione...') {
-            filtered = window.$favorites;
+            filtered = favoritesList;
         }
 
         setFavorites(filtered);
@@ -55,9 +58,14 @@ const Favorites = () => {
         const selectedYear = e.target.value;
         let filtered = [];
 
-        for (const item of window.$favorites) {
+        for (const item of favoritesList) {
             if (item.release_date) {
                 const releaseYear = item.release_date.substring(0, 4);
+                if (selectedYear === releaseYear) {
+                    filtered.push(item);
+                }
+            } else {
+                const releaseYear = item.first_air_date.substring(0, 4);
                 if (selectedYear === releaseYear) {
                     filtered.push(item);
                 }
@@ -65,7 +73,7 @@ const Favorites = () => {
         }
 
         if (selectedYear === 'Seleccione...') {
-            filtered = window.$favorites;
+            filtered = favoritesList;
         }
 
         setFavorites(filtered);
