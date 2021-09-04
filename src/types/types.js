@@ -5,7 +5,10 @@ export const types = {
     favoritesRead: '[Favorites] Read favorites',
     favoritesAdd: '[Favorites] Add favorites',
     favoritesDelete: '[Favorites] Delete favorites',
-    gendersRead: '[Favorites] Read genders',
+    moviesGenresRead: '[Movies] Read movies genres',
+    seriesGenresRead: '[Series] Read series genres',
+    addGenre: '[All] Add genre',
+    allGenresRead: '[All] Read all genres',
     moviesYearsRead: '[Years] Read Movies years',
     seriesYearsRead: '[Years] Read Series years'
 }
