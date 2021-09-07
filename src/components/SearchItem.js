@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { getGenres } from '../helpers/genres';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import favorite from '../assets/favorite.png';
 
+import favorite from '../assets/favorite.png';
+import favoriteMarked from '../assets/favorite-marked.png';
 import noPoster from '../assets/no-poster.jpeg';
-import { useDispatch } from 'react-redux';
 import { addFavorite } from '../redux/actions/favorites';
 import { addGenres } from '../redux/actions/genders';
+import { settingGenresList } from '../helpers/genres';
+import { addYears } from '../redux/actions/years';
 
 const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genre_ids, first_air_date, release_date, media_type, known_for }) => {
 
@@ -15,12 +17,16 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
 
     const [genres, setGenres] = useState([]);
 
+    const favorites = JSON.parse(localStorage.getItem('favorites'));
+
+    const marked = favorites.find(favorite => favorite.id === id);
+
     useEffect(() => {
         settingGenres();
     }, [genre_ids]);
 
     const settingGenres = async () => {
-        const resp = await getGenresSeries(genre_ids);
+        const resp = await settingGenresList(genre_ids);
         setGenres(resp);
     }
 
@@ -174,11 +180,16 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
                     Ver trailer
                 </button>
                 <button
-                    className="button-favorite"
+                    className={(marked === undefined) ? "button-favorite" : "marked"}
                     onClick={addingFavorite}
                 >
-                    Agregar a favoritos
-                    <img src={favorite} alt="favorite" className="favIcon" />
+                    {(marked === undefined)
+                        ?
+                        "Agregar a favoritos"
+                        :
+                        "Agregado a favoritos"
+                    }
+                    <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
                 </button>
             </div>
         </div>

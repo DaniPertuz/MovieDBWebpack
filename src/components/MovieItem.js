@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import { getGenresMovies } from '../helpers/genres';
 import favorite from '../assets/favorite.png';
+import favoriteMarked from '../assets/favorite-marked.png';
 import { addFavorite } from '../redux/actions/favorites';
 import { addGenres } from '../redux/actions/genders';
 import { addYears } from '../redux/actions/years';
@@ -12,7 +13,12 @@ import { addYears } from '../redux/actions/years';
 const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, release_date }) => {
 
     const dispatch = useDispatch();
+
     const [genres, setGenres] = useState([]);
+
+    const favorites = JSON.parse(localStorage.getItem('favorites'));
+
+    const marked = favorites.find(favorite => favorite.id === id);
 
     useEffect(() => {
         settingGenres();
@@ -43,10 +49,16 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
 
     const addingFavorite = () => {
         const itemMovie = { id, poster_path, title, overview, vote_average, genre_ids, release_date };
-        dispatch(addFavorite(itemMovie));
-        dispatch(addGenres(genre_ids));
-        dispatch(addYears(release_date.substring(0, 4)));
-        Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
+        const favorites = JSON.parse(localStorage.getItem('favorites'));
+        const marked = favorites.find(favorite => favorite.id === id);
+        if (marked) {
+            Swal.fire('Lo sentimos', 'Esta película ya fue agregada a favoritos', 'info');
+        } else {
+            dispatch(addFavorite(itemMovie));
+            dispatch(addGenres(genre_ids));
+            dispatch(addYears(release_date.substring(0, 4)));
+            Swal.fire('Éxito', 'Película agregada a favoritos', 'success');
+        }
     }
 
     return (
@@ -65,11 +77,16 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
                     Ver trailer
                 </button>
                 <button
-                    className="button-favorite"
+                    className={(marked === undefined) ? "button-favorite" : "marked"}
                     onClick={addingFavorite}
                 >
-                    Agregar a favoritos
-                    <img src={favorite} alt="favorite" className="favIcon" />
+                    {(marked === undefined)
+                        ?
+                        "Agregar a favoritos"
+                        :
+                        "Agregado a favoritos"
+                    }
+                    <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
                 </button>
             </div>
         </div>

@@ -3,7 +3,7 @@ import SearchItem from './SearchItem';
 
 export const SearchList = ({ results = [] }) => {
     return (
-        <>
+        <div className="items">
             {
                 results.map((item, index) => (
                     <SearchItem
@@ -12,6 +12,6 @@ export const SearchList = ({ results = [] }) => {
                     />
                 ))
             }
-        </>
+        </div>
     )
 }

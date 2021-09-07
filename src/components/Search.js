@@ -39,9 +39,7 @@ export const Search = () => {
 
             {((results !== '') && (totalResults))
                 ?
-                <>
-                    <SearchList searchedItems={results} />
-                </>
+                <SearchList searchedItems={results} />
                 :
                 <></>
             }

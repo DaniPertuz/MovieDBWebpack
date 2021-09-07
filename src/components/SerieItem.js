@@ -1,19 +1,25 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import Swal from 'sweetalert2';
+
 import favorite from '../assets/favorite.png';
+import favoriteMarked from '../assets/favorite-marked.png';
 import noPoster from '../assets/no-poster.jpeg';
 import { getGenresSeries } from '../helpers/genres';
 import { addFavorite } from '../redux/actions/favorites';
 import { addGenres } from '../redux/actions/genders';
 import { addYears } from '../redux/actions/years';
 
-const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, first_air_date, video }) => {
+const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, first_air_date }) => {
 
     const dispatch = useDispatch();
 
     const [genres, setGenres] = useState([]);
+
+    const favorites = JSON.parse(localStorage.getItem('favorites'));
+
+    const marked = favorites.find(favorite => favorite.id === id);
 
     useEffect(() => {
         settingGenres();
@@ -26,11 +32,11 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
 
     const getVideo = async () => {
         const url = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
- 
+
         const response = await axios.get(url);
         const results = await response.data.results;
         const result = results.find(result => result.type === "Trailer" && result.site === "YouTube");
- 
+
         if (result) {
             Swal.fire({
                 title: 'Trailer',
@@ -44,10 +50,14 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
 
     const addingFavorite = () => {
         const itemSeries = { id, poster_path, name, overview, vote_average, genre_ids, first_air_date };
-        dispatch(addFavorite(itemSeries));
-        dispatch(addGenres(genre_ids));
-        dispatch(addYears(first_air_date.substring(0, 4)));
-        Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
+        if (marked) {
+            Swal.fire('Lo sentimos', 'Esta película ya fue agregada a favoritos', 'error');
+        } else {
+            dispatch(addFavorite(itemSeries));
+            dispatch(addGenres(genre_ids));
+            dispatch(addYears(first_air_date.substring(0, 4)));
+            Swal.fire('Éxito', 'Serie agregada a favoritos', 'success');
+        }
     }
 
     return (
@@ -81,11 +91,16 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
                     Ver trailer
                 </button>
                 <button
-                    className="button-favorite"
+                    className={(marked === undefined) ? "button-favorite" : "marked"}
                     onClick={addingFavorite}
                 >
-                    Agregar a favoritos
-                    <img src={favorite} alt="favorite" className="favIcon" />
+                    {(marked === undefined)
+                        ?
+                        "Agregar a favoritos"
+                        :
+                        "Agregado a favoritos"
+                    }
+                    <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
                 </button>
             </div>
         </div>
