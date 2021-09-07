@@ -176,12 +176,14 @@ const Movies = () => {
                                 </select>
                             </div>
                         </div>
-                        {(filtered.length !== 0)
-                            ?
-                            <MoviesList movies={currentMovies} />
-                            :
-                            <MoviesList movies={movies} />
-                        }
+                        <div className="items">
+                            {(filtered.length !== 0)
+                                ?
+                                <MoviesList movies={currentMovies} />
+                                :
+                                <MoviesList movies={movies} />
+                            }
+                        </div>
                         <div style={{ clear: 'both' }}></div>
                         {(totalMovieResults >= moviesPerPage) &&
                             <Pagination

@@ -47,7 +47,7 @@ const Series = () => {
         const selectedGender = e.target.value;
         const allSeries = await getAllSeries();
         filtered.length = 0;
-        
+
         if (selectedGender === 'Seleccione...') {
             setSeries(seriesList);
             setTotalSeriesResults(seriesList.length);
@@ -176,12 +176,14 @@ const Series = () => {
                                 </select>
                             </div>
                         </div>
-                        {(filtered.length !== 0)
-                            ?
-                            <SeriesList series={currentSeries} />
-                            :
-                            <SeriesList series={series} />
-                        }
+                        <div className="items">
+                            {(filtered.length !== 0)
+                                ?
+                                <SeriesList series={currentSeries} />
+                                :
+                                <SeriesList series={series} />
+                            }
+                        </div>
                         <div style={{ clear: 'both' }}></div>
                         {(totalSeriesResults >= seriesPerPage) &&
                             <Pagination

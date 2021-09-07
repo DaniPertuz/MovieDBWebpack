@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { genresList, settingGenresList } from '../helpers/genres';
+import { settingGenresList } from '../helpers/genres';
 
-import { getFavorites } from '../redux/actions/favorites';
-import { getSeriesYears } from '../redux/actions/years';
 import FavoritesList from './FavoritesList';
 import { Labels } from './Labels';
 
 const Favorites = () => {
 
     const dispatch = useDispatch();
+
+    const favoritesStorage = JSON.parse(localStorage.getItem('favorites'));
 
     const [favorites, setFavorites] = useState([]);
 
@@ -26,7 +26,7 @@ const Favorites = () => {
     useEffect(() => {
         setYears(allYears);
         settingGenres();
-        setFavorites(favoritesList);
+        setFavorites(favoritesStorage);
     }, [dispatch, gendersList]);
 
     const settingGenres = async () => {
@@ -121,7 +121,9 @@ const Favorites = () => {
                     </select>
                 </div>
             </div>
-            <FavoritesList favorites={favorites} />
+            <div className="items">
+                <FavoritesList favorites={favorites} />
+            </div>
         </>
     )
 }
