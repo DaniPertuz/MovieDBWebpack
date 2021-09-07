@@ -5,8 +5,11 @@ import { deleteFavorite } from '../redux/actions/favorites';
 import favorite from '../assets/favorite.png';
 import { getGenresMovies, getGenresSeries } from '../helpers/genres';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, genre_ids, first_air_date, release_date, media_type }) => {
+
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
@@ -66,6 +69,7 @@ const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, ge
 
     const removeFavorite = () => {
         dispatch(deleteFavorite(id));
+        history.replace('/');
         Swal.fire('Borrado', 'Elemento eliminado de favoritos', 'success');
     }
 

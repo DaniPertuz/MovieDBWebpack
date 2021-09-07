@@ -9,8 +9,6 @@ const Favorites = () => {
 
     const dispatch = useDispatch();
 
-    const favoritesStorage = JSON.parse(localStorage.getItem('favorites'));
-
     const [favorites, setFavorites] = useState([]);
 
     const [years, setYears] = useState([]);
@@ -21,12 +19,19 @@ const Favorites = () => {
 
     const { allGenres: gendersList } = useSelector(state => state.genders);
 
-    const { data: favoritesList } = useSelector(state => state.favorites);
+    const localFavorites = JSON.parse(localStorage.getItem('favorites'));
+
+    useEffect(() => {
+        if (localFavorites === null) {
+            setFavorites([]);
+        } else {
+            setFavorites(localFavorites);
+        }
+    }, []);
 
     useEffect(() => {
         setYears(allYears);
         settingGenres();
-        setFavorites(favoritesStorage);
     }, [dispatch, gendersList]);
 
     const settingGenres = async () => {
@@ -38,7 +43,7 @@ const Favorites = () => {
         const selectedGender = e.target.value;
         let filtered = [];
 
-        for (const item of favoritesList) {
+        for (const item of favoritesStorage) {
             const genders = item.genre_ids;
             for (const gender of genders) {
                 if (Number(selectedGender) === gender) {
@@ -48,7 +53,7 @@ const Favorites = () => {
         }
 
         if (selectedGender === 'Seleccione...') {
-            filtered = favoritesList;
+            filtered = favoritesStorage;
         }
 
         setFavorites(filtered);
@@ -58,7 +63,7 @@ const Favorites = () => {
         const selectedYear = e.target.value;
         let filtered = [];
 
-        for (const item of favoritesList) {
+        for (const item of favoritesStorage) {
             if (item.release_date) {
                 const releaseYear = item.release_date.substring(0, 4);
                 if (selectedYear === releaseYear) {
@@ -73,7 +78,7 @@ const Favorites = () => {
         }
 
         if (selectedYear === 'Seleccione...') {
-            filtered = favoritesList;
+            filtered = favoritesStorage;
         }
 
         setFavorites(filtered);
@@ -121,9 +126,14 @@ const Favorites = () => {
                     </select>
                 </div>
             </div>
-            <div className="items">
-                <FavoritesList favorites={favorites} />
-            </div>
+            {(favorites.length === 0)
+                ?
+                <h3 className="text-center">No hay items marcado como favoritos todavía</h3>
+                :
+                <div className="items">
+                    <FavoritesList favorites={favorites} />
+                </div>
+            }
         </>
     )
 }

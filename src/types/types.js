@@ -2,9 +2,6 @@
 export const types = {
     moviesRead: '[Movies] Read movies',
     seriesRead: '[Series] Read series',
-    favoritesRead: '[Favorites] Read favorites',
-    favoritesAdd: '[Favorites] Add favorites',
-    favoritesDelete: '[Favorites] Delete favorites',
     addGenre: '[All] Add genre',
     allGenresRead: '[All] Read all genres',
     moviesGenresRead: '[Movies] Read movies genres',

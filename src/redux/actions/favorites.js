@@ -19,7 +19,12 @@ const loadingFavorites = (favorites) => ({
 export const addFavorite = (favorite) => {
     return async (dispatch) => {
         try {
-            dispatch(favoriteAddNew(favorite));
+            // dispatch(favoriteAddNew(favorite));
+            const localFavorites = JSON.parse(localStorage.getItem('favorites'));
+            console.log(localFavorites);
+            const addingLocalFavorite = [...localFavorites, favorite];
+            console.log(addingLocalFavorite);
+            localStorage.setItem('favorites', JSON.stringify(addingLocalFavorite));
         } catch (error) {
             console.error(error);
         }
@@ -35,6 +40,10 @@ export const deleteFavorite = (id) => {
     return async (dispatch) => {
         try {
             dispatch(favoriteDeleting(id));
+            const localFavoritesToDelete = JSON.parse(localStorage.getItem('favorites'));
+            const deleted = localFavoritesToDelete.filter(fav => fav.id !== id);
+            console.log(typeof deleted);
+            localStorage.setItem('favorites', JSON.stringify(deleted));
         } catch (error) {
             console.error(error);
         }
