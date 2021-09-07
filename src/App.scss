@@ -1,7 +1,6 @@
-$reactColor: #011826;
-$primary: #767676;
-$secondary: rgb(57, 189, 255);
-$gray: #F3F6F7;
+$primary: #99a6ac;
+$secondary: #39bdff;
+$gray: #f3f6f7;
 $favorite: rgb(198, 144, 9);
 
 @font-face {
@@ -58,6 +57,7 @@ header {
 
 #comboGenre,
 #comboYear {
+    color: $primary;
     font-size: 1rem;
 }
 
@@ -67,10 +67,12 @@ header {
 }
 
 h4 {
+    color: $primary;
+    font-size: 1.5rem;
+    font-weight: bold;
     margin-left: 2.8rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    font-size: 1.5rem;
 }
 
 .results {
@@ -132,7 +134,6 @@ h4 {
     background-color: $gray;
     width: 100%;
     height: 2.5rem;
-    box-sizing: border-box;
     padding: 1rem 3rem;
     margin: 0 auto;
     border-color: transparent;
@@ -264,6 +265,7 @@ nav ul li button:hover {
 
 .labels {
     margin-left: 3rem;
+    color: $primary;
 }
 
 .rowManual {
@@ -281,7 +283,7 @@ nav ul li button:hover {
     height: 4vh;
     border: 0.15rem solid $gray;
     border-radius: 0.5rem;
-    border-color: darken($color: $gray, $amount: 30);
+    border-color: #ecf1f4;
 }
 
 .selects:focus-visible {
@@ -311,22 +313,22 @@ nav ul li button:hover {
     grid-row: 4 / 4;
 }
 
-.button-favorite:focus, .button-favorite:active, .button-favorite:visited, .button-favorite:hover {
+.button-favorite:focus,
+.button-favorite:active,
+.button-favorite:visited,
+.button-favorite:hover {
     border-color: transparent;
 }
 
 .marked {
     background-color: white;
-    border-color: transparent;
-    background-color: $favorite;
+    border-color: $favorite;
     border-radius: 0.25rem;
-    color: white;
+    color: $favorite;
     cursor: pointer;
     font-weight: bold;
     grid-column: 3 / 5;
     grid-row: 4 / 4;
-    margin: 1rem 2rem;
-    padding: 0.2rem 0rem;
 }
 
 .favIcon {
@@ -353,66 +355,72 @@ nav ul li button:hover {
         height: 15vh;
     }
 
+    .container-fluid input[type="text"] {
+        padding: 1rem 3rem;
+    }
+
     .items {
         grid-template-columns: 1fr;
         padding: 0rem 1rem;
     }
 
     .card {
-        max-height: 30vh;
+        max-height: 20vh;
     }
 
     .card img {
-        max-height: 30vh;
-    }
-
-    .card-title,
-    .card-subtitle {
-        font-size: 0.5rem;
+        max-height: 20vh;
     }
 
     .card-title {
-        padding-left: 0.5rem;
+        padding-left: 0rem;
     }
 
     .card-subtitle {
         padding: 0.5rem;
     }
 
+    .card-title,
+    .card-subtitle,
     .card-text-genres,
-    .card-text-release {
+    .card-text-overview,
+    .card-text-release,
+    .button-trailer,
+    .button-favorite,
+    .marked,
+    h4 {
         font-size: 0.5rem;
     }
 
     .card-text-release {
-        margin-left: 0.5rem;
-        margin-top: 0.5rem;
+        margin-left: 0rem;
+        margin-top: 0rem;
     }
 
     .card-text-genres {
-        margin-left: 0.2rem;
-        margin-top: 0.5rem;
+        margin-left: 0rem;
+        margin-top: 0rem;
     }
 
     .card-text-overview {
-        font-size: 0.5rem;
         grid-template-rows: 3 / 4;
-        margin: 0.5rem;
+        margin-left: 0rem;
+        margin-right: 0.8rem;
     }
 
     .button-trailer,
     .button-favorite {
-        font-size: 0.5rem;
         grid-template-rows: 4 / 4;
-        margin: 0rem 0rem 0.3rem 0rem;
+        margin-bottom: 0.3rem;
         padding: 0rem;
     }
 
     .button-trailer {
-        height: 5vh;
+        padding: 0.2rem 0rem;
     }
 
-    .button-favorite {
+    .button-favorite, .marked {
+        margin: 0.1rem 0.3rem 0.3rem 0.3rem;
         grid-template-columns: 3 / 4;
     }
 
@@ -466,20 +474,15 @@ nav ul li button:hover {
     }
 
     .card {
-        max-height: 60vh;
+        max-height: 23vh;
         grid-template-columns: repeat(3, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 2fr 1fr;
+        grid-template-rows: repeat(2, 1fr) 4fr 1fr;
         grid-column-gap: 1rem;
         grid-row-gap: 0rem;
     }
 
     .card img {
-        max-height: 30vh;
-    }
-
-    .card-title,
-    .card-subtitle {
-        font-size: 0.6rem;
+        max-height: 23vh;
     }
 
     .card-title {
@@ -491,9 +494,13 @@ nav ul li button:hover {
     }
 
     .card-text-genres,
+    .card-text-overview,
     .card-text-release,
+    .card-title,
+    .card-subtitle,
     .button-trailer,
-    .button-favorite {
+    .button-favorite,
+    .marked {
         font-size: 0.6rem;
     }
 
@@ -508,7 +515,6 @@ nav ul li button:hover {
     }
 
     .card-text-overview {
-        font-size: 0.6rem;
         grid-template-rows: 3 / 4;
         margin: 0.5rem;
     }
@@ -518,11 +524,15 @@ nav ul li button:hover {
         grid-template-rows: 4 / 4;
     }
 
-    .button-trailer {
-        height: 5vh;
+    .button-trailer,
+    .marked {
+        margin: 0.4rem 0.2rem;
+        padding: 0.4rem 0rem;
     }
 
-    .button-favorite {
+    .button-favorite,
+    .marked {
+        margin: 0.5rem;
         grid-template-columns: 3 / 4;
     }
 
@@ -592,15 +602,15 @@ nav ul li button:hover {
     }
 
     .card {
-        max-height: 50vh;
+        max-height: 35vh;
         grid-template-columns: repeat(3, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 2fr 1fr;
+        grid-template-rows: repeat(2, 1fr) 5fr 1fr;
         grid-column-gap: 1rem;
         grid-row-gap: 0rem;
     }
 
     .card img {
-        max-height: 50vh;
+        max-height: 35vh;
     }
 
     .card-title {
@@ -617,12 +627,13 @@ nav ul li button:hover {
     .card-text-release,
     .card-text-overview,
     .button-trailer,
+    .button-favorite,
     .labels,
     #comboGenre,
     #comboYear,
     h4,
-    .button-favorite {
-        font-size: 0.8rem;
+    .marked {
+        font-size: 0.75rem;
     }
 
     .labels,
@@ -650,16 +661,16 @@ nav ul li button:hover {
     .button-trailer,
     .button-favorite {
         grid-template-rows: 4 / 4;
-        margin: 0rem;
-        padding: 0rem;
     }
 
     .button-trailer {
-        margin: 1rem 0rem;
+        margin: 2.5rem 0.5rem 0.5rem 0rem;
     }
 
-    .button-favorite {
+    .button-favorite,
+    .marked {
         grid-template-columns: 3 / 4;
+        margin: 2.5rem 0.5rem 0.5rem 0rem;
     }
 
     .favIcon {
@@ -686,15 +697,15 @@ nav ul li button:hover {
     }
 
     .card {
-        max-height: 35vh;
+        max-height: 28vh;
         grid-template-columns: 2fr repeat(2, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 5fr 1fr;
+        grid-template-rows: repeat(2, 1fr) 6fr 1fr;
         grid-column-gap: 1rem;
         grid-row-gap: 0rem;
     }
 
     .card img {
-        max-height: 35vh;
+        max-height: 28vh;
     }
 
     .card-title,
@@ -702,38 +713,43 @@ nav ul li button:hover {
     .card-text-genres,
     .card-text-release,
     .card-text-overview,
+    #comboGenre,
+    #comboYear,
+    .labels,
+    .marked,
     .button-trailer,
-    .button-favorite {
-        font-size: 0.65rem;
+    .button-favorite,
+    h4 {
+        font-size: 0.6rem;
     }
 
     .card-title {
-        padding-left: 0.5rem;
+        padding-left: 0rem;
     }
 
     .card-subtitle {
         padding: 0.5rem 1rem 0rem 0rem;
     }
 
-    .card-text-release {
-        margin-left: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
+    .card-text-release,
     .card-text-genres {
-        margin-left: 0.2rem;
-        margin-top: 0.5rem;
+        margin-left: 0rem;
+        margin-top: 0.2rem;
     }
 
     .card-text-overview {
-        grid-template-rows: 3 / 4;
-        margin: 0.2rem 0.5rem;
+        grid-template-rows: 2 / 4;
+        margin: 0.5rem 0.6rem 0.5rem 0rem;
     }
 
-    .button-trailer,
-    .button-favorite {
-        margin: 1.1rem 0rem;
-        padding: 0.5rem 0rem;
+    .button-trailer {
+        margin: 1rem 0rem 0.5rem 0rem;
+        padding: 0.3rem 0rem;
+    }
+
+    .button-favorite,
+    .marked {
+        margin: 1rem 0.5rem 0.5rem 0rem;
     }
 
     .favIcon {
@@ -757,20 +773,22 @@ nav ul li button:hover {
     }
 
     .card {
+        border-radius: 0.25rem;
+        box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
         display: grid;
         grid-template-columns: repeat(3, 2fr) 1fr;
         grid-template-rows: repeat(2, 1fr) 5fr 1fr;
         grid-column-gap: 1rem;
         grid-row-gap: 0rem;
-        box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
+        max-height: 35vh;
         transition: 0.3s;
-        border-radius: 0.25rem;
     }
 
     .card img {
+        border-radius: 0.25rem;
         grid-column: 1 / 1;
         grid-row: 1 / 5;
-        border-radius: 0.25rem;
+        max-height: 35vh;
     }
 
     .card-title,
@@ -787,10 +805,14 @@ nav ul li button:hover {
         margin-left: 0.4rem;
     }
 
-    .button-trailer,
-    .button-favorite {
+    .button-trailer {
         margin: 0.5rem 0rem;
         padding: 0.5rem 0rem;
+    }
+
+    .button-favorite, .marked {
+        margin: 0.5rem 0.8rem;
+        padding: 0rem;
     }
 
     .favIcon {
@@ -845,8 +867,8 @@ nav ul li button:hover {
         margin-left: 0.5rem;
     }
 
-    .button-favorite {
-        margin: 1rem 3rem;
+    .button-favorite, .marked {
+        margin: 1rem 2rem;
         padding: 0.2rem 0rem;
     }
 
