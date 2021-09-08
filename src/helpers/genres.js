@@ -120,3 +120,33 @@ export const genresList = async (allGenres = []) => {
 
     return uniques;
 }
+
+export const getMovieGenreId = async (name = '') => {
+    let id;
+    const response = await axios.get(GET_GENRES_MOVIES);
+    const movies = await response.data.genres;
+
+    for (const movie of movies) {
+        if (movie.name === name) {
+            id = movie.id;
+        }
+    }
+
+    return id;
+}
+
+export const getSerieGenreId = async (name = '') => {
+    let id;
+    const resp = await axios.get(GET_GENRES_SERIES);
+    const series = await resp.data.genres;
+
+    for (const serie of series) {
+        if (serie.name === name) {
+            id = movie.id;
+        } else {
+            id = '';
+        }
+    }
+
+    return id;
+}
