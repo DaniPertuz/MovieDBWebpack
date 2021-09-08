@@ -1,8 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const Header = () => {
+
+    const history = useHistory();
+
+    const [location, setLocation] = useState('');
+
+    const setActive = (pathname) => {
+        console.log(pathname);
+        setLocation(pathname);
+    }
+
     return (
         <header className="container-fluid bg-white">
             <div className="content">
@@ -12,25 +22,33 @@ const Header = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/" style={{ textDecoration: 'none' }}>
-                            <button className="links">
-                                Películas
-                            </button>
-                        </Link>
+                        <button
+                            className={(location === '/') ? "visited" : "links"}
+                            onClick={() => {
+                                history.push('/');
+                                setActive(history.location.pathname);
+                            }}>
+                            Movies
+                        </button>
                     </li>
                     <li>
-                        <Link to="/series" style={{ textDecoration: 'none' }}>
-                            <button className="links">
-                                Series
-                            </button>
-                        </Link>
+                        <button
+                            className={(location === '/series') ? "visited" : "links"}
+                            onClick={() => {
+                                history.push('/series');
+                                setActive(history.location.pathname);
+                            }}>
+                            Series
+                        </button>
                     </li>
                     <li>
-                        <Link to="/favorites" style={{ textDecoration: 'none' }}>
-                            <button className="links">
-                                Favoritos
-                            </button>
-                        </Link>
+                        <button className={(location === '/favorites') ? "visited" : "links"}
+                            onClick={() => {
+                                history.push('/favorites');
+                                setActive(history.location.pathname);
+                            }}>
+                            Favoritos
+                        </button>
                     </li>
                 </ul>
             </nav>
