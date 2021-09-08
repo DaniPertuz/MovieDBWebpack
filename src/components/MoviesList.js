@@ -6,7 +6,7 @@ const MoviesList = ({ movies = [] }) => {
         <>
             {(movies.length === 0)
                 ?
-                <h3 className="text-center">No hay películas</h3>
+                <h3 className="text-center">Cargando películas...</h3>
                 :
                 movies.map((item, index) => (
                     <MovieItem

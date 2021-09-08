@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { settingGenresList } from '../helpers/genres';
+import { getAllMovies, getAllSeries } from '../helpers/fetchData';
+import { getMovieGenreId, getSerieGenreId, settingGenresList } from '../helpers/genres';
 
 import FavoritesList from './FavoritesList';
 import { Labels } from './Labels';
@@ -11,9 +12,17 @@ const Favorites = () => {
 
     const [favorites, setFavorites] = useState([]);
 
+    const [filtered, setFiltered] = useState([]);
+
     const [years, setYears] = useState([]);
 
     const [genders, setGenders] = useState([]);
+
+    const [yearFilter, setYearFilter] = useState('');
+
+    const [genreSelected, setGenreSelected] = useState('');
+
+    const [showGenreFilter, setShowGenreFilter] = useState(false);
 
     const { allYears } = useSelector(state => state.years);
 
@@ -32,56 +41,97 @@ const Favorites = () => {
     useEffect(() => {
         setYears(allYears);
         settingGenres();
-    }, [dispatch, gendersList]);
+        filtering(yearFilter, genreSelected);
+    }, [dispatch, gendersList, yearFilter, genreSelected]);
 
     const settingGenres = async () => {
         const genres = await settingGenresList(gendersList);
         setGenders(genres);
     }
 
-    const filterByGender = (e) => {
-        const selectedGender = e.target.value;
-        let filtered = [];
+    const handleShowGenreFilter = () => {
+        setShowGenreFilter(true);
+    }
 
-        for (const item of favoritesStorage) {
-            const genders = item.genre_ids;
-            for (const gender of genders) {
-                if (Number(selectedGender) === gender) {
-                    filtered.push(item);
+    const handleHideGenreFilter = () => {
+        setShowGenreFilter(false);
+    }
+
+    const filtering = async (selectedYear, selectedGenre) => {
+        const movieGenreID = await getMovieGenreId(selectedGenre);
+        const serieGenreID = await getSerieGenreId(selectedGenre);
+
+        if (selectedYear === '' && selectedGenre === '') {
+            setFavorites(localFavorites);
+        } else if ((selectedYear !== '' || selectedYear !== 'Seleccione...') && selectedGenre === '') {
+            let yearFiltered = [];
+
+            for (const favorite of favorites) {
+                if (favorite.release_date) {
+                    const yearRelease = favorite.release_date.substring(0, 4);
+                    if (yearRelease === selectedYear) {
+                        yearFiltered.push(favorite);
+                    }
+                } else if (favorite.first_air_date) {
+                    const yearAirDate = favorite.first_air_date.substring(0, 4);
+                    if (yearAirDate === selectedYear) {
+                        yearFiltered.push(favorite);
+                    }
                 }
             }
-        }
 
-        if (selectedGender === 'Seleccione...') {
-            filtered = favoritesStorage;
-        }
+            setFiltered(yearFiltered);
+            setFavorites(filtered);
+            setTotalMovieResults(filtered.length);
+        } else if ((selectedYear === '' || selectedYear === 'Seleccione...') && selectedGenre !== '') {
+            let genreFiltered = [];
+            for (const favorite of favorites) {
+                const genres = favorite.genre_ids;
+                for (const genre of genres) {
+                    if ((movieGenreID === genre) || (serieGenreID === genre)) {
+                        genreFiltered.push(favorite);
+                    }
+                }
+            }
 
-        setFavorites(filtered);
+            setFiltered(genreFiltered);
+            setFavorites(filtered);
+            setTotalMovieResults(filtered.length);
+        } else {
+            let allFiltered = [];
+
+            for (const favorite of favorites) {
+                if (favorite.release_date) {
+                    const yearRelease = favorite.release_date.substring(0, 4);
+                    const genres = favorite.genre_ids;
+                    for (const genre of genres) {
+                        if ((movieGenreID === genre) && (yearRelease === selectedYear)) {
+                            allFiltered.push(favorite);
+                        }
+                    }
+                } else if (favorite.first_air_date) {
+                    const yearAirDate = favorite.first_air_date.substring(0, 4);
+                    const genres = favorite.genre_ids;
+                    for (const genre of genres) {
+                        if ((serieGenreID === genre) && (yearAirDate === selectedYear)) {
+                            allFiltered.push(favorite);
+                        }
+                    }
+                }
+            }
+
+            setFiltered(allFiltered);
+            setMovies(filtered);
+            setTotalMovieResults(filtered.length);
+        }
+    }
+
+    const filterByGenre = (e) => {
+        setGenreSelected(e.target.value);
     }
 
     const filterByYear = (e) => {
-        const selectedYear = e.target.value;
-        let filtered = [];
-
-        for (const item of favoritesStorage) {
-            if (item.release_date) {
-                const releaseYear = item.release_date.substring(0, 4);
-                if (selectedYear === releaseYear) {
-                    filtered.push(item);
-                }
-            } else {
-                const releaseYear = item.first_air_date.substring(0, 4);
-                if (selectedYear === releaseYear) {
-                    filtered.push(item);
-                }
-            }
-        }
-
-        if (selectedYear === 'Seleccione...') {
-            filtered = favoritesStorage;
-        }
-
-        setFavorites(filtered);
+        setYearFilter(e.target.value);
     }
 
     return (
@@ -108,22 +158,36 @@ const Favorites = () => {
                     </select>
                 </div>
                 <div className="column-2">
-                    <select
-                        id="comboGenre"
-                        name="gender"
+                    <input
+                        id="inputGenre"
+                        type="search"
+                        name="genre"
                         className="selects"
-                        onChange={filterByGender}
-                    >
-                        <option
-                            defaultValue>
-                            Seleccione...
-                        </option>
-                        {genders.map(({ id, name }, index) => (
-                            <option key={index} value={id}>
-                                {name}
-                            </option>
-                        ))}
-                    </select>
+                        placeholder="Filtrar por..."
+                        autoComplete="off"
+                        onChange={filterByGenre}
+                        value={genreSelected}
+                        onFocus={handleShowGenreFilter}
+                    />
+                    {showGenreFilter &&
+                        <div id="listGenres">
+                            <ul>
+                                {genders.map((genre, index) => (
+                                    <li
+                                        key={index}
+                                        name="genre"
+                                        onClick={() => {
+                                            setGenreSelected(genre.name);
+                                            handleHideGenreFilter();
+                                        }}
+
+                                    >
+                                        {genre.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    }
                 </div>
             </div>
             {(favorites.length === 0)

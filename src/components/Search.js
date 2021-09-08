@@ -28,15 +28,10 @@ export const Search = () => {
             <div className="container-fluid">
                 <input
                     type="text"
-                    placeholder="Buscar película, serie o video"
+                    placeholder="Search for a movie, series and videos"
                     onChange={getSearch}
                 />
             </div>
-            {
-                totalResults &&
-                <h6 className="results">{totalResults} coincidencias</h6>
-            }
-
             {((results !== '') && (totalResults))
                 ?
                 <SearchList searchedItems={results} />

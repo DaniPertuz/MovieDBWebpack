@@ -9,12 +9,19 @@ import { Labels } from './Labels';
 import Pagination from './Pagination';
 import { SearchList } from './SearchList';
 import SeriesList from './SeriesList';
+import { getSerieGenreId } from '../helpers/genres';
 
 const Series = () => {
 
     const [series, setSeries] = useState([]);
 
-    const [filtered] = useState([]);
+    const [filtered, setFiltered] = useState([]);
+
+    const [yearFilter, setYearFilter] = useState('');
+
+    const [showGenreFilter, setShowGenreFilter] = useState(false);
+
+    const [genreSelected, setGenreSelected] = useState('');
 
     const [genders, setGenders] = useState([]);
 
@@ -41,50 +48,80 @@ const Series = () => {
         setGenders(gendersList);
         setYears(seriesYears);
         settingTotalSeriesResults();
-    }, [seriesList, gendersList, seriesYears]);
+        filtering(yearFilter, genreSelected);
+    }, [seriesList, gendersList, seriesYears, yearFilter, genreSelected]);
 
-    const filterByGender = async (e) => {
-        const selectedGender = e.target.value;
+    const filtering = async (selectedYear, selectedGenre) => {
         const allSeries = await getAllSeries();
-        filtered.length = 0;
+        const genreID = await getSerieGenreId(selectedGenre);
 
-        if (selectedGender === 'Seleccione...') {
+        if (selectedYear === '' && selectedGenre === '') {
             setSeries(seriesList);
-            setTotalSeriesResults(seriesList.length);
-        } else {
+            settingTotalSeriesResults(seriesList.length);
+        } else if ((selectedYear !== '' || selectedYear !== 'Seleccione...') && selectedGenre === '') {
+            let yearFiltered = [];
+
             for (const serie of allSeries) {
-                const genders = serie.genre_ids;
-                for (const gender of genders) {
-                    if (Number(selectedGender) === gender) {
-                        filtered.push(serie);
+                if (serie.first_air_date) {
+                    const year = serie.first_air_date.substring(0, 4);
+                    if (year === selectedYear) {
+                        yearFiltered.push(serie);
                     }
                 }
             }
+
+            setFiltered(yearFiltered);
             setSeries(filtered);
-            setTotalSeriesResults(filtered.length);
+            settingTotalSeriesResults(filtered.length);
+        } else if ((selectedYear === '' || selectedYear === 'Seleccione...') && selectedGenre !== '') {
+            let genreFiltered = [];
+
+            for (const serie of allSeries) {
+                const genres = serie.genre_ids;
+                for (const genre of genres) {
+                    if (genreID === genre) {
+                        genreFiltered.push(serie);
+                    }
+                }
+            }
+
+            setFiltered(genreFiltered);
+            setSeries(filtered);
+            settingTotalSeriesResults(filtered.length);
+        } else {
+            let allFiltered = [];
+
+            for (const serie of allSeries) {
+                if (serie.first_air_date) {
+                    const genres = serie.genre_ids;
+                    for (const genre of genres) {
+                        if ((genreID === genre) && (serie.first_air_date.substring(0, 4) === selectedYear)) {
+                            allFiltered.push(serie);
+                        }
+                    }
+                }
+            }
+
+            setFiltered(allFiltered);
+            setSeries(filtered);
+            settingTotalSeriesResults(filtered.length);
         }
     }
 
-    const filterByYear = async (e) => {
-        const selectedYear = e.target.value;
-        const allSeries = await getAllSeries();
-        filtered.length = 0;
+    const filterByGenre = (e) => {
+        setGenreSelected(e.target.value);
+    }
 
-        if (selectedYear === 'Seleccione...') {
-            setSeries(seriesList);
-            setTotalSeriesResults(seriesList.length);
-        } else {
-            for (const serie of allSeries) {
-                if (serie.first_air_date) {
-                    const releaseYear = serie.first_air_date.substring(0, 4);
-                    if (selectedYear === releaseYear) {
-                        filtered.push(serie);
-                    }
-                }
-            }
-            setSeries(filtered);
-            setTotalSeriesResults(filtered.length);
-        }
+    const filterByYear = (e) => {
+        setYearFilter(e.target.value);
+    }
+
+    const handleShowGenreFilter = () => {
+        setShowGenreFilter(true);
+    }
+
+    const handleHideGenreFilter = () => {
+        setShowGenreFilter(false);
     }
 
     const getSearch = async (e) => {
@@ -123,10 +160,14 @@ const Series = () => {
             <div className="container-fluid">
                 <input
                     type="text"
-                    placeholder="Buscar película, serie o video"
+                    placeholder="Search for a movie, series and videos"
                     onChange={getSearch}
                 />
             </div>
+            {
+                totalResults &&
+                <h3 className="results">{totalResults} coincidencias</h3>
+            }
             {((totalResults > 0) && (totalResults !== ''))
                 ?
                 <SearchList results={results} />
@@ -158,22 +199,43 @@ const Series = () => {
                                 </select>
                             </div>
                             <div className="column-2">
-                                <select
-                                    id="comboGenre"
-                                    name="gender"
+                                <input
+                                    id="inputGenre"
+                                    type="search"
+                                    name="genre"
                                     className="selects"
-                                    onChange={filterByGender}
-                                >
-                                    <option
-                                        defaultValue>
-                                        Seleccione...
-                                    </option>
-                                    {genders.map(({ id, name }, index) => (
-                                        <option key={index} value={id}>
-                                            {name}
-                                        </option>
-                                    ))}
-                                </select>
+                                    placeholder="Filtrar por..."
+                                    autoComplete="off"
+                                    onChange={filterByGenre}
+                                    value={genreSelected}
+                                    onFocus={handleShowGenreFilter}
+                                />
+                                {showGenreFilter &&
+                                    <div id="listGenres">
+                                        <ul>
+                                            <li
+                                                key={0}
+                                                onClick={() => {
+                                                    setGenreSelected('');
+                                                    handleHideGenreFilter();
+                                                }}>
+                                                All
+                                            </li>
+                                            {genders.map((genre, index) => (
+                                                <li
+                                                    key={index}
+                                                    name="genre"
+                                                    onClick={() => {
+                                                        setGenreSelected(genre.name);
+                                                        handleHideGenreFilter();
+                                                    }}
+                                                >
+                                                    {genre.name}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div className="items">

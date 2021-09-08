@@ -6,7 +6,7 @@ const SeriesList = ({ series = [] }) => {
         <>
             {(series.length === 0)
                 ?
-                <h3 className="text-center">No hay series</h3>
+                <h3 className="text-center">Cargando series...</h3>
                 :
                 series.map((item, index) => (
                     <SerieItem
