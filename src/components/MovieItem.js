@@ -63,30 +63,40 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
 
     return (
         <div className="card">
-            <img src={"https://image.tmdb.org/t/p/w500" + poster_path} alt={title} />
-            <h5 className="card-title">{title}</h5>
-            <h5 className="card-subtitle">{vote_average}</h5>
-            <p className="card-text-release">{release_date}</p>
-            <p className="card-text-genres">{genres}</p>
-            <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
-            <button
-                className="button-trailer"
-                onClick={getVideo}
-            >
-                Ver trailer
-            </button>
-            <button
-                className={(marked === undefined) ? "button-favorite" : "marked"}
-                onClick={addingFavorite}
-            >
-                {(marked === undefined)
-                    ?
-                    "Agregar a favoritos"
-                    :
-                    "Agregado a favoritos"
-                }
-                <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
-            </button>
+            <img className="card-img" src={"https://image.tmdb.org/t/p/w500" + poster_path} alt={title} />
+            <div className="card-body">
+                <div className="card-header">
+                    <h5 className="card-title">{title}</h5>
+                    <h5 className="card-subtitle">{vote_average}</h5>
+                </div>
+                <div className="card-subheader">
+                    <p className="card-text-release">{release_date}</p>
+                    <p className="card-text-genres">{genres}</p>
+                </div>
+                <div className="card-text">
+                    <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
+                </div>
+                <div className="card-buttons">
+                    <button
+                        className="button-trailer"
+                        onClick={getVideo}
+                    >
+                        Ver Trailer
+                    </button>
+                    <button
+                        className={(marked === undefined) ? "button-favorite" : "marked"}
+                        onClick={addingFavorite}
+                    >
+                        {(marked === undefined)
+                            ?
+                            "Agregar a favoritos"
+                            :
+                            "Agregado a favoritos"
+                        }
+                        <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }

@@ -221,59 +221,70 @@ nav ul li button:hover {
 }
 
 .card {
-    display: grid;
-    grid-template-columns: 4fr repeat(2, 2fr) 1fr;
-    grid-template-rows: repeat(2, 1fr) 5fr 1fr;
-    grid-column-gap: 1rem;
-    grid-row-gap: 0rem;
-    box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-flow: row wrap;
+    box-shadow: 0.1rem 0.1rem 0.3rem 0 rgba(0, 0, 0, 0.2);
 }
 
-.card img {
-    grid-column: 1 / 1;
-    grid-row: 1 / 5;
-    max-height: 50vh;
+.card-img {
+    align-items: stretch;
+    flex-grow: 1;
+    width: 35%;
 }
 
-.card-title {
-    grid-column: 2 / 4;
-    grid-row: 1 / 1;
-    font-size: 2rem;
-    padding: 0.5rem;
+.card-body {
+    display: flex;
+    flex-grow: 7;
+    flex-flow: row wrap;
+    justify-content: stretch;
+    padding: 1rem;
+    width: 50%;
 }
 
-.card-subtitle {
-    grid-column: 4 / 4;
-    grid-row: 1 / 1;
-    font-size: 2rem;
-    text-align: end;
-    padding: 1rem 2rem 0rem 0rem;
+.card-header,
+.card-subheader,
+.card-text,
+.card-buttons {
+    flex: 0 100%;
+    display: flex;
 }
 
+.card-header {
+    order: 1;
+}
+.card-subheader {
+    order: 2;
+    padding: 0.25rem 0rem;
+}
+
+.card-title,
 .card-text-release {
-    font-size: 1.25rem;
-    grid-column: 2 / 3;
-    grid-row: 2 / 2;
-    margin: 0.5rem;
+    flex-grow: 5;
 }
 
 .card-text-genres {
-    font-size: 1.25rem;
-    grid-column: 3 / 5;
-    grid-row: 2 / 2;
-    margin: 0.5rem;
+    text-align: end;
 }
 
-.card-text-overview {
-    grid-column: 2 / 5;
-    grid-row: 3 / 4;
-    font-size: 1.25rem;
-    margin: 0.5rem;
-    text-align: justify;
+.card-subtitle,
+.card-text-genres {
+    flex-grow: 1;
 }
 
-.labels {
-    margin-left: 2.5rem;
+.card-subtitle {
+    text-align: end;
+}
+
+.card-text {
+    align-items: stretch;
+    height: 50%;
+    order: 3;
+    word-wrap: break-word;
+}
+
+.card-buttons {
+    justify-content: space-between;
+    order: 4;
 }
 
 .card-title,
@@ -282,6 +293,10 @@ nav ul li button:hover {
 .labels {
     color: #83959b;
     font-weight: bold;
+}
+
+.labels {
+    margin-left: 2.5rem;
 }
 
 .rowManual {
@@ -313,9 +328,6 @@ nav ul li button:hover {
     color: $secondary;
     cursor: pointer;
     font-weight: bold;
-    grid-column: 2 / 3;
-    grid-row: 4 / 4;
-    padding: 0.5rem 0rem;
 }
 
 .button-favorite {
@@ -325,15 +337,10 @@ nav ul li button:hover {
     color: $primary;
     cursor: pointer;
     font-weight: bold;
-    grid-column: 3 / 5;
-    grid-row: 4 / 4;
 }
 
-.button-favorite:focus,
-.button-favorite:active,
-.button-favorite:visited,
 .button-favorite:hover {
-    border-color: transparent;
+    border-color: $primary;
 }
 
 .marked {
@@ -343,8 +350,6 @@ nav ul li button:hover {
     color: $favorite;
     cursor: pointer;
     font-weight: bold;
-    grid-column: 3 / 5;
-    grid-row: 4 / 4;
 }
 
 .favIcon {
@@ -361,7 +366,7 @@ nav ul li button:hover {
     header {
         display: inline-block;
         text-align: center;
-        height: 13vh;
+        height: 14vh;
     }
 
     .container-fluid input[type="text"] {
@@ -370,23 +375,7 @@ nav ul li button:hover {
 
     .items {
         grid-template-columns: 1fr;
-        padding: 0rem 1rem;
-    }
-
-    .card {
-        max-height: 22vh;
-    }
-
-    .card img {
-        max-height: 22vh;
-    }
-
-    .card-title {
-        padding-left: 0rem;
-    }
-
-    .card-subtitle {
-        padding: 0.5rem;
+        padding: 0rem 0.5rem;
     }
 
     .card-title,
@@ -400,42 +389,13 @@ nav ul li button:hover {
         font-size: 0.45rem;
     }
 
-    .links {
-        font-size: 1rem;
-    }
-    .visited {
-        font-size: 1.2rem;
-    }
-
-    .card-text-release {
-        margin-left: 0rem;
-        margin-top: 0rem;
-    }
-
-    .card-text-genres {
-        margin-left: 0rem;
-        margin-top: 0rem;
-    }
-
-    .card-text-overview {
-        grid-template-rows: 3 / 4;
-        margin-left: 0rem;
-        margin-right: 0.8rem;
-    }
-
-    .button-trailer,
-    .button-favorite {
-        margin-bottom: 0.3rem;
-        padding: 0rem;
-    }
-
     .button-trailer {
-        padding: 0.2rem 0rem;
+        padding: 0rem 0.8rem;
     }
 
-    .button-favorite,
-    .marked {
-        margin: 0.1rem 0.3rem 0.3rem 0.3rem;
+    .links,
+    .visited {
+        font-size: 1rem;
     }
 
     h4 {
@@ -467,23 +427,19 @@ nav ul li button:hover {
         padding: 1rem 0.8rem;
     }
 
-    .links {
-        font-size: 1.2rem;
-    }
-
     .column-2 {
         width: 40%;
     }
 
     .favIcon {
         margin: 0rem 0.1rem;
-        max-height: 0.5rem;
-        max-width: 0.5rem;
+        max-height: 0.4rem;
+        max-width: 0.4rem;
     }
 
     .pages {
-        font-size: 0.7rem;
-        margin: 0.1rem 0.5rem;
+        font-size: 0.5rem;
+        margin: 1rem 0.5rem;
         padding: 0.5rem;
     }
 }
@@ -500,26 +456,6 @@ nav ul li button:hover {
         padding: 0rem 1rem;
     }
 
-    .card {
-        max-height: 25vh;
-        grid-template-columns: repeat(3, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 4fr 1fr;
-        grid-column-gap: 1rem;
-        grid-row-gap: 0rem;
-    }
-
-    .card img {
-        max-height: 25vh;
-    }
-
-    .card-title {
-        padding-left: 0.5rem;
-    }
-
-    .card-subtitle {
-        padding: 0.5rem;
-    }
-
     .card-text-genres,
     .card-text-overview,
     .card-text-release,
@@ -528,39 +464,11 @@ nav ul li button:hover {
     .button-trailer,
     .button-favorite,
     .marked {
-        font-size: 0.55rem;
+        font-size: 0.5rem;
     }
 
-    .card-text-release {
-        margin-left: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
-    .card-text-genres {
-        margin-left: 0.2rem;
-        margin-top: 0.5rem;
-    }
-
-    .card-text-overview {
-        grid-template-rows: 3 / 4;
-        margin: 0.5rem;
-    }
-
-    .button-trailer,
-    .button-favorite {
-        grid-template-rows: 4 / 4;
-    }
-
-    .button-trailer,
-    .marked {
-        margin: 0.4rem 0.2rem;
-        padding: 0.4rem 0rem;
-    }
-
-    .button-favorite,
-    .marked {
-        margin: 0.5rem;
-        grid-template-columns: 3 / 4;
+    .button-trailer {
+        padding: 0rem 1rem;
     }
 
     h4 {
@@ -592,8 +500,9 @@ nav ul li button:hover {
         padding: 1rem 0.8rem;
     }
 
-    .links {
-        font-size: 1.2rem;
+    .links,
+    .visited {
+        font-size: 1rem;
     }
 
     .column-2 {
@@ -620,8 +529,9 @@ nav ul li button:hover {
         height: 14vh;
     }
 
-    .links {
-        font-size: 1.2rem;
+    .links,
+    .visited {
+        font-size: 1rem;
     }
 
     #labelGender {
@@ -650,26 +560,6 @@ nav ul li button:hover {
         padding: 0rem 1rem;
     }
 
-    .card {
-        max-height: 40vh;
-        grid-template-columns: repeat(3, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 5fr 1fr;
-        grid-column-gap: 1rem;
-        grid-row-gap: 0rem;
-    }
-
-    .card img {
-        max-height: 40vh;
-    }
-
-    .card-title {
-        margin-top: 0.5rem;
-    }
-
-    .card-subtitle {
-        padding: 1rem;
-    }
-
     .card-title,
     .card-subtitle,
     .card-text-genres,
@@ -680,9 +570,13 @@ nav ul li button:hover {
     .labels,
     #inputGenre,
     #comboYear,
-    h4,
-    .marked {
+    .marked,
+    h4 {
         font-size: 0.75rem;
+    }
+
+    .button-trailer {
+        padding: 0rem 1rem;
     }
 
     .labels,
@@ -692,36 +586,6 @@ nav ul li button:hover {
 
     h4 {
         margin-left: 1.75rem;
-    }
-
-    .card-text-release {
-        margin-left: 0rem;
-        margin-top: 0.5rem;
-    }
-
-    .card-text-genres {
-        margin-left: 0.2rem;
-        margin-top: 0.5rem;
-    }
-
-    .card-text-overview {
-        grid-template-rows: 3 / 4;
-        margin: 0.5rem 1rem 0.2rem 0rem;
-    }
-
-    .button-trailer,
-    .button-favorite {
-        grid-template-rows: 4 / 4;
-    }
-
-    .button-trailer {
-        margin: 2.5rem 0.5rem 0.5rem 0rem;
-    }
-
-    .button-favorite,
-    .marked {
-        grid-template-columns: 3 / 4;
-        margin: 2.5rem 0.5rem 0.5rem 0rem;
     }
 
     .favIcon {
@@ -747,31 +611,22 @@ nav ul li button:hover {
         width: 25%;
     }
 
-    .card {
-        max-height: 30vh;
-        grid-template-columns: 2fr repeat(2, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 6fr 1fr;
-        grid-column-gap: 0.5rem;
-        grid-row-gap: 0rem;
-    }
-
-    .card img {
-        max-height: 30vh;
-    }
-
     .card-title,
     .card-subtitle,
     .card-text-genres,
     .card-text-release,
     .card-text-overview,
-    #inputGenre,
-    #comboYear,
-    .labels,
     .marked,
     .button-trailer,
-    .button-favorite,
-    h4 {
+    .button-favorite {
         font-size: 0.6rem;
+    }
+
+    .labels,
+    #inputGenre,
+    #comboYear,
+    h4 {
+        font-size: 0.8rem;
     }
 
     #inputGenre {
@@ -783,29 +638,23 @@ nav ul li button:hover {
         margin-left: 2.3rem;
     }
 
-    .button-trailer,
-    .button-favorite,
-    .marked {
-        margin-bottom: 0.5rem;
+    .button-trailer {
+        padding: 0rem 1rem;
     }
 
     .button-favorite,
     .marked {
-        margin-right: 0.2rem;
+        padding: 0rem 0.5rem;
     }
 
-    .links {
-        font-size: 1.2rem;
-    }
-
+    .links,
     .visited {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .favIcon {
-        margin: 0rem 0.1rem;
-        max-height: 0.6rem;
-        max-width: 0.6rem;
+        max-height: 0.4rem;
+        max-width: 0.4rem;
     }
 
     #inputGenre {
@@ -832,44 +681,21 @@ nav ul li button:hover {
         padding: 0rem 3rem;
     }
 
-    .card {
-        display: grid;
-        grid-template-columns: repeat(3, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 5fr 1fr;
-        grid-column-gap: 0.5rem;
-        grid-row-gap: 0rem;
-        max-height: 38vh;
-    }
-
-    .card img {
-        grid-column: 1 / 1;
-        grid-row: 1 / 5;
-        max-height: 38vh;
-    }
-
     .card-title,
     .card-subtitle,
     .card-text-genres,
     .card-text-release,
     .card-text-overview,
     .button-trailer,
-    .button-favorite {
-        font-size: 0.9rem;
-    }
-
-    .card-text-release {
-        margin-left: 0.4rem;
+    .button-favorite,
+    .marked {
+        font-size: 0.75rem;
     }
 
     .button-trailer,
     .button-favorite,
     .marked {
-        margin-bottom: 0.5rem;
-    }
-
-    .button-favorite,
-    .marked {
-        margin-right: 0.3rem;
+        padding: 0rem 0.75rem;
     }
 
     .favIcon {
@@ -878,7 +704,8 @@ nav ul li button:hover {
         max-width: 0.7rem;
     }
 
-    .links {
+    .links,
+    .visited {
         font-size: 1.2rem;
     }
 
@@ -912,26 +739,16 @@ nav ul li button:hover {
 
 @media screen and (min-width: 1441px) {
     .items {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-column-gap: 1.5rem;
         grid-row-gap: 1rem;
         padding: 0rem 2rem;
     }
 
-    .card {
-        display: grid;
-        grid-template-columns: repeat(3, 2fr) 1fr;
-        grid-template-rows: repeat(2, 1fr) 5fr 1fr;
-        grid-column-gap: 1rem;
-        grid-row-gap: 0rem;
-        max-height: 35vh;
-    }
-
-    .card img {
-        grid-column: 1 / 1;
-        grid-row: 1 / 5;
-        max-height: 35vh;
+    .button-trailer,
+    .button-favorite,
+    .marked {
+        padding: 0rem 0.5rem;
     }
 
     .card-title,
@@ -943,25 +760,6 @@ nav ul li button:hover {
     .button-favorite,
     .marked {
         font-size: 0.8rem;
-    }
-
-    .card-title {
-        margin-top: 0.5rem;
-    }
-
-    .card-text-release {
-        margin-left: 0.5rem;
-    }
-
-    .button-trailer,
-    .button-favorite,
-    .marked {
-        margin-bottom: 0.5rem;
-    }
-
-    .button-favorite,
-    .marked {
-        margin-right: 0.3rem;
     }
 
     .links {
@@ -987,7 +785,7 @@ nav ul li button:hover {
 
     .favIcon {
         margin: 0rem 0.1rem;
-        max-height: 1rem;
-        max-width: 1rem;
+        max-height: 0.7rem;
+        max-width: 0.7rem;
     }
 }

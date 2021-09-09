@@ -74,42 +74,50 @@ const FavoriteItem = ({ id, poster_path, title, name, overview, vote_average, ge
     }
 
     return (
-        <div className="container-card">
-            <div className="card">
-                <img src={"https://image.tmdb.org/t/p/w500" + poster_path} alt={name} />
-                {name &&
-                    <h5 className="card-title">{name}</h5>
-                }
-                {title &&
-                    <h5 className="card-title">{title}</h5>
-                }
-                <h5 className="card-subtitle">{vote_average}</h5>
-                {first_air_date &&
-                    <p className="card-text-release">{first_air_date}</p>
-                }
-                {release_date &&
-                    <p className="card-text-release">{release_date}</p>
-                }
-                <p className="card-text-genres">{genres}</p>
-                {overview
-                    ?
-                    <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
-                    :
-                    <p className="card-text-overview">Sin descripción</p>
-                }
-                <button
-                    className="button-trailer"
-                    onClick={getVideo}
-                >
-                    Ver trailer
-                </button>
-                <button
-                    className="button-favorite"
-                    onClick={removeFavorite}
-                >
-                    Eliminar favorito
-                    <img src={favorite} alt="favorite" className="favIcon" />
-                </button>
+        <div className="card">
+            <img className="card-img" src={"https://image.tmdb.org/t/p/w500" + poster_path} alt={name} />
+            <div className="card-body">
+                <div className="card-header">
+                    {name &&
+                        <h5 className="card-title">{name}</h5>
+                    }
+                    {title &&
+                        <h5 className="card-title">{title}</h5>
+                    }
+                    <h5 className="card-subtitle">{vote_average}</h5>
+                </div>
+                <div className="card-subheader">
+                    {first_air_date &&
+                        <p className="card-text-release">{first_air_date}</p>
+                    }
+                    {release_date &&
+                        <p className="card-text-release">{release_date}</p>
+                    }
+                    <p className="card-text-genres">{genres}</p>
+                </div>
+                <div className="card-text">
+                    {overview
+                        ?
+                        <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
+                        :
+                        <p className="card-text-overview">Sin descripción</p>
+                    }
+                </div>
+                <div className="card-buttons">
+                    <button
+                        className="button-trailer"
+                        onClick={getVideo}
+                    >
+                        Ver Trailer
+                    </button>
+                    <button
+                        className="button-favorite"
+                        onClick={removeFavorite}
+                    >
+                        Eliminar favorito
+                        <img src={favorite} alt="favorite" className="favIcon" />
+                    </button>
+                </div>
             </div>
         </div>
     )

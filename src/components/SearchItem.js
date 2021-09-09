@@ -113,17 +113,17 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
     const getVideo = async () => {
         try {
             let url = '';
-    
+
             if (media_type === 'tv') {
                 url = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
             } else {
                 url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=cc0b90931467ae243564a690969b3b99&language=es`;
             }
-    
+
             const response = await axios.get(url);
             const results = await response.data.results;
             const result = results.find(result => result.type === "Trailer" && result.site === "YouTube");
-     
+
             if (result) {
                 Swal.fire({
                     title: 'Trailer',
@@ -147,50 +147,47 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
     }
 
     return (
-        <div className="container-card">
-            <div className="card">
-                <img src={setImage()} alt={name} />
-
-                {name &&
-                    <h5 className="card-title">{name}</h5>
-                }
-
-                {title &&
-                    <h5 className="card-title">{title}</h5>
-                }
-
-                <h5 className="card-subtitle">{setVoteAverage()}</h5>
-
-                <p className="card-text-release">{setDate()}</p>
-
-                <p className="card-text-genres">{genres}</p>
-                <p>
-                    {(media_type === 'tv')
-                        ?
-                        'Serie'
-                        :
-                        'Película'
+        <div className="card">
+            <div className="card-body">
+                <img className="card-img" src={setImage()} alt={name} />
+                <div className="card-header">
+                    {name &&
+                        <h5 className="card-title">{name}</h5>
                     }
-                </p>
-                <p className="card-text-overview">{setDescription()}</p>
-                <button
-                    className="button-trailer"
-                    onClick={getVideo}
-                >
-                    Ver trailer
-                </button>
-                <button
-                    className={(marked === undefined) ? "button-favorite" : "marked"}
-                    onClick={addingFavorite}
-                >
-                    {(marked === undefined)
-                        ?
-                        "Agregar a favoritos"
-                        :
-                        "Agregado a favoritos"
+
+                    {title &&
+                        <h5 className="card-title">{title}</h5>
                     }
-                    <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
-                </button>
+
+                    <h5 className="card-subtitle">{setVoteAverage()}</h5>
+                </div>
+                <div className="card-subheader">
+                    <p className="card-text-release">{setDate()}</p>
+                    <p className="card-text-genres">{genres}</p>
+                </div>
+                <div className="card-text">
+                    <p className="card-text-overview">{setDescription()}</p>
+                </div>
+                <div className="card-buttons">
+                    <button
+                        className="button-trailer"
+                        onClick={getVideo}
+                    >
+                        Ver Trailer
+                    </button>
+                    <button
+                        className={(marked === undefined) ? "button-favorite" : "marked"}
+                        onClick={addingFavorite}
+                    >
+                        {(marked === undefined)
+                            ?
+                            "Agregar a favoritos"
+                            :
+                            "Agregado a favoritos"
+                        }
+                        <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
+                    </button>
+                </div>
             </div>
         </div>
     )

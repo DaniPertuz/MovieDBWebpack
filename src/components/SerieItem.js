@@ -61,49 +61,57 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
     }
 
     return (
-        <div className="container-card">
             <div className="card">
                 {poster_path
                     ?
-                    <img src={"https://image.tmdb.org/t/p/w500" + poster_path} alt={name} />
+                    <img className="card-img" src={"https://image.tmdb.org/t/p/w500" + poster_path} alt={name} />
                     :
-                    <img src={noPoster} alt={name} />
+                    <img className="card-img" src={noPoster} alt={name} />
                 }
-                <h5 className="card-title">{name}</h5>
-                <h5 className="card-subtitle">{vote_average}</h5>
-                <p className="card-text-release">{first_air_date}</p>
-                {(genres === "")
-                    ?
-                    <p className="card-text-genres">{"Sin género"}</p>
-                    :
-                    <p className="card-text-genres">{genres}</p>
-                }
-                {(overview === "")
-                    ?
-                    <p className="card-text-overview">{"Sin descripción"}</p>
-                    :
-                    <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
-                }
-                <button
-                    className="button-trailer"
-                    onClick={getVideo}
-                >
-                    Ver trailer
-                </button>
-                <button
-                    className={(marked === undefined) ? "button-favorite" : "marked"}
-                    onClick={addingFavorite}
-                >
-                    {(marked === undefined)
-                        ?
-                        "Agregar a favoritos"
-                        :
-                        "Agregado a favoritos"
-                    }
-                    <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
-                </button>
+                <div className="card-body">
+                    <div className="card-header">
+                        <h5 className="card-title">{name}</h5>
+                        <h5 className="card-subtitle">{vote_average}</h5>
+                    </div>
+                    <div className="card-subheader">
+                        <p className="card-text-release">{first_air_date}</p>
+                        {(genres === "")
+                            ?
+                            <p className="card-text-genres">{"Sin género"}</p>
+                            :
+                            <p className="card-text-genres">{genres}</p>
+                        }
+                    </div>
+                    <div className="card-text">
+                        {(overview === "")
+                            ?
+                            <p className="card-text-overview">{"Sin descripción"}</p>
+                            :
+                            <p className="card-text-overview">{overview.length > 200 ? overview.substr(0, 199) + '...' : overview}</p>
+                        }
+                    </div>
+                    <div className="card-buttons">
+                        <button
+                            className="button-trailer"
+                            onClick={getVideo}
+                        >
+                            Ver Trailer
+                        </button>
+                        <button
+                            className={(marked === undefined) ? "button-favorite" : "marked"}
+                            onClick={addingFavorite}
+                        >
+                            {(marked === undefined)
+                                ?
+                                "Agregar a favoritos"
+                                :
+                                "Agregado a favoritos"
+                            }
+                            <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
     )
 }
 
