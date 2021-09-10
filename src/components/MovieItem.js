@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import { getGenresMovies } from '../helpers/genres';
 import favorite from '../assets/favorite.png';
-import favoriteMarked from '../assets/favorite-marked.png';
 import { addFavorite } from '../redux/actions/favorites';
 import { addGenres } from '../redux/actions/genders';
 import { addYears } from '../redux/actions/years';
@@ -93,7 +92,7 @@ const MovieItem = ({ id, poster_path, title, overview, vote_average, genre_ids, 
                             :
                             "Agregado a favoritos"
                         }
-                        <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
+                        <img src={favorite} alt="favorite" className="favIcon" />
                     </button>
                 </div>
             </div>

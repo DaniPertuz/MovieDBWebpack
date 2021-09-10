@@ -4,7 +4,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 import favorite from '../assets/favorite.png';
-import favoriteMarked from '../assets/favorite-marked.png';
 import noPoster from '../assets/no-poster.jpeg';
 import { getGenresSeries } from '../helpers/genres';
 import { addFavorite } from '../redux/actions/favorites';
@@ -107,7 +106,7 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
                                 :
                                 "Agregado a favoritos"
                             }
-                            <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
+                            <img src={favorite} alt="favorite" className="favIcon" />
                         </button>
                     </div>
                 </div>

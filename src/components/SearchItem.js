@@ -4,7 +4,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 import favorite from '../assets/favorite.png';
-import favoriteMarked from '../assets/favorite-marked.png';
 import noPoster from '../assets/no-poster.jpeg';
 import { addFavorite } from '../redux/actions/favorites';
 import { addGenres } from '../redux/actions/genders';
@@ -185,7 +184,7 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
                             :
                             "Agregado a favoritos"
                         }
-                        <img src={(marked === undefined) ? favorite : favoriteMarked} alt="favorite" className="favIcon" />
+                        <img src={favorite} alt="favorite" className="favIcon" />
                     </button>
                 </div>
             </div>
