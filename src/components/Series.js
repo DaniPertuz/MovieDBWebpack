@@ -53,7 +53,7 @@ const Series = () => {
         }
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-          };
+        };
     }, [showGenreFilter]);
 
     useEffect(() => {
@@ -141,9 +141,9 @@ const Series = () => {
         if (genreRef.current && genreRef.current.contains(event.target)) {
             // inside click
             return;
-          }
-          // outside click
-          setShowGenreFilter(false);
+        }
+        // outside click
+        setShowGenreFilter(false);
     };
 
     const getSearch = async (e) => {
@@ -181,13 +181,13 @@ const Series = () => {
         <>
             <div className="container-fluid">
                 <input
-                    type="text"
+                    type="search"
                     placeholder="Search for a movie, series and videos"
                     onChange={getSearch}
                 />
             </div>
             {
-                totalResults &&
+                (totalResults > 0) &&
                 <h3 className="results">{totalResults} coincidencias</h3>
             }
             {((totalResults > 0) && (totalResults !== ''))
