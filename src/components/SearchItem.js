@@ -147,8 +147,8 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
 
     return (
         <div className="card">
+            <img className="card-img" src={setImage()} alt={name} />
             <div className="card-body">
-                <img className="card-img" src={setImage()} alt={name} />
                 <div className="card-header">
                     {name &&
                         <h5 className="card-title">{name}</h5>
