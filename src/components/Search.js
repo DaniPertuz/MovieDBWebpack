@@ -27,7 +27,7 @@ export const Search = () => {
         <>
             <div className="container-fluid">
                 <input
-                    type="text"
+                    type="search"
                     placeholder="Search for a movie, series and videos"
                     onChange={getSearch}
                 />
