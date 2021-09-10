@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const Header = () => {
@@ -9,7 +9,6 @@ const Header = () => {
     const [location, setLocation] = useState('');
 
     const setActive = (pathname) => {
-        console.log(pathname);
         setLocation(pathname);
     }
 
@@ -25,8 +24,11 @@ const Header = () => {
                         <button
                             className={(location === '/') ? "visited" : "links"}
                             onClick={() => {
-                                history.push('/');
-                                setActive(history.location.pathname);
+                                if (location === '/') {
+                                    history.go('/');
+                                }
+                                history.replace('/');
+                                setActive('/');
                             }}>
                             Movies
                         </button>
@@ -35,8 +37,11 @@ const Header = () => {
                         <button
                             className={(location === '/series') ? "visited" : "links"}
                             onClick={() => {
-                                history.push('/series');
-                                setActive(history.location.pathname);
+                                if (location === '/series') {
+                                    history.go('/series');
+                                }
+                                history.replace('/series');
+                                setActive('/series');
                             }}>
                             Series
                         </button>
@@ -44,8 +49,11 @@ const Header = () => {
                     <li>
                         <button className={(location === '/favorites') ? "visited" : "links"}
                             onClick={() => {
-                                history.push('/favorites');
-                                setActive(history.location.pathname);
+                                if (location === '/favorites') {
+                                    history.go('/favorites');
+                                }
+                                history.replace('/favorites');
+                                setActive('/favorites');
                             }}>
                             Favoritos
                         </button>
