@@ -39,7 +39,7 @@ const Favorites = () => {
         }
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-          };
+        };
     }, [showGenreFilter]);
 
     useEffect(() => {
@@ -73,9 +73,9 @@ const Favorites = () => {
         if (genreRef.current && genreRef.current.contains(event.target)) {
             // inside click
             return;
-          }
-          // outside click
-          setShowGenreFilter(false);
+        }
+        // outside click
+        setShowGenreFilter(false);
     };
 
     const filtering = async (selectedYear, selectedGenre) => {
