@@ -75,18 +75,14 @@ header {
     color: $primary;
 }
 
-#inputGenre:focus + #listGenres {
-    position: absolute;
-    top: auto;
-    z-index: 1;
-}
-
 #listGenres {
     background-color: white;
     border-radius: 0.25rem;
     box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
-    margin-left: 2.5rem;
     padding: 0rem;
+    position: absolute;
+    top: auto;
+    z-index: 1;
 }
 
 #listGenres ul li {
@@ -96,7 +92,7 @@ header {
 }
 
 #listGenres ul li:hover {
-    background-color: #e8eef1;
+    background-color: #E8EEF1;
 }
 
 h4 {
@@ -230,7 +226,7 @@ nav ul li button:hover {
 .card-img {
     align-items: stretch;
     flex-grow: 1;
-    width: 35%;
+    width: 30%;
 }
 
 .card-body {
@@ -239,7 +235,7 @@ nav ul li button:hover {
     flex-flow: row wrap;
     justify-content: stretch;
     padding: 1rem;
-    width: 50%;
+    width: 65%;
 }
 
 .card-header,
@@ -324,11 +320,10 @@ nav ul li button:hover {
 
 .button-trailer {
     background-color: white;
-    border-color: $secondary;
+    border: 0.12rem solid $secondary;
     border-radius: 0.25rem;
     color: $secondary;
     cursor: pointer;
-    font-weight: bold;
 }
 
 .button-favorite {
@@ -337,18 +332,17 @@ nav ul li button:hover {
     border-radius: 0.25rem;
     color: $primary;
     cursor: pointer;
-    font-weight: bold;
 }
 
 .button-favorite:hover {
-    border-color: $primary;
+    border: 0.12rem solid $primary;
 }
 
 .marked {
     background-color: white;
-    border-color: $favorite;
+    border: 0.12rem solid $primary;
     border-radius: 0.25rem;
-    color: $favorite;
+    color: $primary;
     cursor: pointer;
     font-weight: bold;
 }
@@ -417,10 +411,12 @@ nav ul li button:hover {
 
     #inputGenre {
         margin-left: 1.5rem;
+        width: 9rem;
     }
 
     #listGenres {
-        margin-left: 1.6rem;
+        margin-left: 1.8rem;
+        width: 8.5rem;
     }
 
     #listGenres ul li {
@@ -490,10 +486,12 @@ nav ul li button:hover {
 
     #inputGenre {
         margin-left: 1.5rem;
+        width: 10rem;
     }
 
     #listGenres {
-        margin-left: 1.6rem;
+        margin-left: 1.8rem;
+        width: 9.5rem;
     }
 
     #listGenres ul li {
@@ -540,11 +538,12 @@ nav ul li button:hover {
     }
 
     #inputGenre {
-        width: 100%;
+        width: 13rem;
     }
 
     #listGenres {
-        margin-left: 2.1rem;
+        margin-left: 3rem;
+        width: 12.2rem;
     }
 
     #listGenres ul li {
@@ -730,6 +729,7 @@ nav ul li button:hover {
 
     #listGenres {
         margin-left: 2.8rem;
+        width: 13rem;
     }
 
     #listGenres ul li {
@@ -777,6 +777,7 @@ nav ul li button:hover {
 
     #listGenres {
         margin-left: 2.8rem;
+        width: 12.2%;
     }
 
     #listGenres ul li {
