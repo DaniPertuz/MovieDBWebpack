@@ -1,3 +1,11 @@
-/series /series
-/favorites /favorites
+[[redirects]]
+  from = "/series"
+  to = "https://https://moviedb-webpack.netlify.app/series"
+  status = 200
+
+[[redirects]]
+  from = "/favorites"
+  to = "https://https://moviedb-webpack.netlify.app/favorites"
+  status = 200
+
 /*  /index.html
