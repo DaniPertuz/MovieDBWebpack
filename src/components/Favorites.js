@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllMovies, getAllSeries } from '../helpers/fetchData';
 import { getMovieGenreId, getSerieGenreId, settingGenresList } from '../helpers/genres';
 
 import FavoritesList from './FavoritesList';
 import { Labels } from './Labels';
 
 const Favorites = () => {
+
+    const genreRef = useRef();
 
     const dispatch = useDispatch();
 
@@ -29,6 +30,17 @@ const Favorites = () => {
     const { allGenres: gendersList } = useSelector(state => state.genders);
 
     const localFavorites = JSON.parse(localStorage.getItem('favorites'));
+
+    useEffect(() => {
+        if (showGenreFilter) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+          };
+    }, [showGenreFilter]);
 
     useEffect(() => {
         if (localFavorites === null) {
@@ -56,6 +68,15 @@ const Favorites = () => {
     const handleHideGenreFilter = () => {
         setShowGenreFilter(false);
     }
+
+    const handleClickOutside = (event) => {
+        if (genreRef.current && genreRef.current.contains(event.target)) {
+            // inside click
+            return;
+          }
+          // outside click
+          setShowGenreFilter(false);
+    };
 
     const filtering = async (selectedYear, selectedGenre) => {
         const movieGenreID = await getMovieGenreId(selectedGenre);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -12,6 +12,8 @@ import SeriesList from './SeriesList';
 import { getSerieGenreId } from '../helpers/genres';
 
 const Series = () => {
+
+    const genreRef = useRef();
 
     const [series, setSeries] = useState([]);
 
@@ -42,6 +44,17 @@ const Series = () => {
     const { seriesGenres: gendersList } = useSelector(state => state.genders);
 
     const { seriesYears } = useSelector(state => state.years);
+
+    useEffect(() => {
+        if (showGenreFilter) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+          };
+    }, [showGenreFilter]);
 
     useEffect(() => {
         setSeries(seriesList);
@@ -123,6 +136,15 @@ const Series = () => {
     const handleHideGenreFilter = () => {
         setShowGenreFilter(false);
     }
+
+    const handleClickOutside = (event) => {
+        if (genreRef.current && genreRef.current.contains(event.target)) {
+            // inside click
+            return;
+          }
+          // outside click
+          setShowGenreFilter(false);
+    };
 
     const getSearch = async (e) => {
         const values = e.target.value;
