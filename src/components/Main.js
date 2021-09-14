@@ -10,8 +10,6 @@ import { getAllYears, getMoviesYears, getSeriesYears } from '../redux/actions/ye
 
 const Main = () => {
 
-    localStorage.setItem('favorites', JSON.stringify([]));
-
     const dispatch = useDispatch();
 
     useEffect(() => {

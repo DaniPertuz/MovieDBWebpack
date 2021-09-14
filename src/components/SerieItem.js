@@ -16,7 +16,7 @@ const SerieItem = ({ id, poster_path, name, overview, vote_average, genre_ids, f
 
     const [genres, setGenres] = useState([]);
 
-    const favorites = JSON.parse(localStorage.getItem('favorites'));
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     const marked = favorites.find(favorite => favorite.id === id);
 

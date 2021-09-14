@@ -16,7 +16,7 @@ const SearchItem = ({ id, poster_path, name, title, overview, vote_average, genr
 
     const [genres, setGenres] = useState([]);
 
-    const favorites = JSON.parse(localStorage.getItem('favorites'));
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     const marked = favorites.find(favorite => favorite.id === id);
 
